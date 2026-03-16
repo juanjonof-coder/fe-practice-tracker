@@ -881,80 +881,82 @@
 
   .phase-weeks { display: flex; flex-direction: column; gap: 12px; }
 
-  /* ===== TASK SOURCES ===== */
-  .task-sources {
-    margin-top: 6px;
+  /* ===== RESOURCES BANNER ===== */
+  .resources-banner {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .resources-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px 24px;
+  }
+
+  .resources-title {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text3);
+    margin-bottom: 14px;
+  }
+
+  .resources-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 16px;
+  }
+
+  .res-group {
     display: flex;
     flex-direction: column;
     gap: 4px;
   }
 
-  .task-source {
-    display: flex;
-    align-items: flex-start;
-    gap: 6px;
-    font-size: 10px;
-    line-height: 1.4;
-  }
-
-  .task-source-dot {
-    width: 4px; height: 4px; border-radius: 50%;
-    background: var(--text3);
-    flex-shrink: 0;
-    margin-top: 4px;
-  }
-
-  .task-source-link {
-    color: var(--blue);
-    text-decoration: none;
-    font-family: var(--font-mono);
-    font-weight: 400;
-    transition: color 0.12s;
-  }
-
-  .task-source-link:hover { color: #88ccff; text-decoration: underline; }
-
-  .task-source-plain {
-    color: var(--text3);
-    font-family: var(--font-mono);
-  }
-
-  .task-source-note {
-    color: var(--text3);
-    font-style: italic;
-    font-family: var(--font-body);
-    font-weight: 300;
-  }
-
-  .sources-toggle {
+  .res-group-label {
     font-family: var(--font-mono);
     font-size: 9px;
-    color: var(--text3);
-    cursor: pointer;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    background: none;
-    border: none;
-    padding: 0;
-    margin-top: 5px;
-    transition: color 0.12s;
-    display: flex;
-    align-items: center;
-    gap: 4px;
+    letter-spacing: 0.8px;
+    color: var(--accent);
+    margin-bottom: 4px;
   }
 
-  .sources-toggle:hover { color: var(--blue); }
+  .res-item {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--text2);
+    line-height: 1.4;
+    padding: 3px 0;
+  }
 
-  .sources-panel {
-    display: none;
+  .res-item.res-top {
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .res-note {
+    font-size: 10px;
+    color: var(--text3);
+    font-weight: 300;
+    line-height: 1.5;
     margin-top: 4px;
-    padding: 8px 10px;
-    background: #0a1420;
-    border: 1px solid #1e2e40;
-    border-radius: 6px;
+    font-style: italic;
   }
 
-  .sources-panel.visible { display: block; }
+  @media (max-width: 1100px) {
+    .resources-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  @media (max-width: 600px) {
+    .resources-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* ===== TASK SOURCES — removed, replaced by banner ===== */
+  .task-sources-inline { display: none; }
+  .sources-toggle { display: none; }
+  .sources-panel { display: none; }
 
   /* ===== SPACED REVIEW NUDGE ===== */
   .spaced-nudge {
@@ -1197,6 +1199,48 @@
   </div>
 </header>
 
+<div class="resources-banner">
+  <div class="resources-inner">
+    <div class="resources-title">Recommended resources — FE Other Disciplines</div>
+    <div class="resources-grid">
+      <div class="res-group">
+        <div class="res-group-label">Primary textbook</div>
+        <div class="res-item res-top">Lindeburg — FE Other Disciplines Review Manual</div>
+        <div class="res-note">The single most important book. Every topic, every chapter. Buy this first.</div>
+      </div>
+      <div class="res-group">
+        <div class="res-group-label">Official practice exam</div>
+        <div class="res-item res-top">NCEES FE Other Disciplines Practice Exam</div>
+        <div class="res-note">Only source that perfectly mirrors real exam style and difficulty. Non-negotiable.</div>
+      </div>
+      <div class="res-group">
+        <div class="res-group-label">Question bank &amp; drilling</div>
+        <div class="res-item res-top">PPI2Pass — FE Other Disciplines Practice+</div>
+        <div class="res-item">StudyForFE.com</div>
+        <div class="res-note">PPI2Pass is the strongest paid bank. StudyForFE is a cheaper alternative with solid coverage.</div>
+      </div>
+      <div class="res-group">
+        <div class="res-group-label">Calculator — approved only</div>
+        <div class="res-item res-top">Texas Instruments TI-36X Pro</div>
+        <div class="res-item">Casio fx-115ES Plus</div>
+        <div class="res-note">Learn solver mode, stat functions, and unit conversions before exam day. Either model is excellent.</div>
+      </div>
+      <div class="res-group">
+        <div class="res-group-label">Video lectures — free</div>
+        <div class="res-item res-top">Engineer4Free — full FE playlist</div>
+        <div class="res-item">Chad's Prep — YouTube</div>
+        <div class="res-item">Brian Douglas — YouTube (controls only)</div>
+        <div class="res-note">Engineer4Free covers statics, dynamics, circuits, fluids. Chad's Prep is FE-exam focused. Brian Douglas is the best controls resource available anywhere.</div>
+      </div>
+      <div class="res-group">
+        <div class="res-group-label">Spaced repetition</div>
+        <div class="res-item res-top">Anki — desktop + mobile app</div>
+        <div class="res-note">15 minutes every single day. Only card what you got wrong — not summaries. This is what keeps week 1 material alive in week 30.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="layout">
   <!-- SIDEBAR -->
   <aside class="sidebar">
@@ -1321,8 +1365,7 @@ const WEEKS = [
             { q: "What is the derivative of ln(x)?", a: "1/x" },
             { q: "In the handbook, where is the trig identity table?", a: "Mathematics section — memorize the page, not the identities" },
             { q: "What is the formula for the sum of a geometric series?", a: "S = a(1-rⁿ)/(1-r) — find it in handbook Mathematics" },
-          ],
-          sources: [{"label": "NCEES FE Reference Handbook", "url": "https://ncees.org/exams/fe-exam/", "note": "Free download \u2014 ncees.org \u2192 FE Exam \u2192 Reference materials"}]
+          ]
         }
       ]},
       { name: "Tue", type: "rest", tasks: [] },
@@ -1339,12 +1382,7 @@ const WEEKS = [
         { title: "Handbook navigation drill", type: "review", hours: 0.5, problems: 0, desc: "Timed drill: can you find 20 specific formulas in under 30 seconds each?" }
       ]},
       { name: "Sun", type: "rest", tasks: [] },
-    ],
-          sources: [{"label": "Lindeburg Ch. 3 \u2014 Mathematics", "url": null, "note": "FE Other Disciplines Review Manual"}, {"label": "Engineer4Free: Calculus playlist", "url": "https://www.engineer4free.com/calculus", "note": "Free \u2014 watch 1.5\u00d7 speed"}, {"label": "NCEES Handbook: Mathematics section", "url": null, "note": "Tab it now \u2014 derivatives, integrals, series"}],
-          sources: [{"label": "Lindeburg Ch. 3 \u2014 practice problems", "url": null, "note": "End-of-chapter problems"}, {"label": "StudyForFE.com \u2014 Math topic", "url": "https://www.studyforfe.com", "note": "Filter by Mathematics"}],
-          sources: [{"label": "Lindeburg Ch. 3 \u2014 Vectors", "url": null, "note": "Section on vector operations"}, {"label": "NCEES Handbook: Mathematics \u2014 Vector section", "url": null, "note": ""}],
-          sources: [{"label": "Lindeburg Ch. 3 \u2014 Linear Algebra", "url": null, "note": "Matrix operations, determinants"}, {"label": "Khan Academy: Linear Algebra (free)", "url": "https://www.khanacademy.org/math/linear-algebra", "note": "Matrices & determinants module"}],
-          sources: [{"label": "NCEES FE Reference Handbook", "url": "https://ncees.org/exams/fe-exam/", "note": "Use the PDF \u2014 practice Ctrl+F and tab navigation"}]
+    ]
   },
   {
     id: 2, title: "Differential Equations & Numerical Methods", phase: 1, tag: "foundation",
@@ -1360,8 +1398,7 @@ const WEEKS = [
             { q: "For a 2nd order ODE with repeated root r, what is the general solution?", a: "y = (C₁ + C₂x)eʳˣ — the x multiplier is the trap everyone misses" },
             { q: "What does the Laplace transform of a derivative f'(t) equal?", a: "sF(s) - f(0) — initial condition appears here" },
             { q: "In Newton-Raphson, what is the iteration formula?", a: "x_{n+1} = x_n - f(x_n)/f'(x_n)" },
-          ],
-          sources: [{"label": "Lindeburg Ch. 3 \u2014 Differential Equations", "url": null, "note": "FE Other Disciplines Review Manual"}, {"label": "Engineer4Free: Differential Equations", "url": "https://www.engineer4free.com/differential-equations", "note": "Free video series"}, {"label": "NCEES Handbook: Mathematics \u2014 ODE section", "url": null, "note": ""}]
+          ]
         }
       ]},
       { name: "Tue", type: "rest", tasks: [] },
@@ -1378,11 +1415,7 @@ const WEEKS = [
         { title: "Anki daily review", type: "anki", hours: 0.5, problems: 0, desc: "Review all due cards — under 20 min. If a card keeps failing, rewrite it as a more specific question. Retiring cards you've mastered is as important as adding new ones." }
       ]},
       { name: "Sun", type: "rest", tasks: [] },
-    ],
-          sources: [{"label": "Lindeburg Ch. 3 \u2014 Laplace Transforms", "url": null, "note": ""}, {"label": "NCEES Handbook: Mathematics \u2014 Laplace table", "url": null, "note": "The transform pair table is your primary tool"}, {"label": "Khan Academy: Laplace transforms (free)", "url": "https://www.khanacademy.org/math/differential-equations", "note": "Laplace module"}],
-          sources: [{"label": "Lindeburg Ch. 3 practice problems", "url": null, "note": ""}, {"label": "StudyForFE.com \u2014 Math", "url": "https://www.studyforfe.com", "note": ""}],
-          sources: [{"label": "Lindeburg Ch. 3 \u2014 Numerical Methods", "url": null, "note": "Newton-Raphson, integration methods"}, {"label": "NCEES Handbook: Mathematics \u2014 Numerical Methods", "url": null, "note": ""}],
-          sources: [{"label": "StudyForFE.com \u2014 Math topic", "url": "https://www.studyforfe.com", "note": "Mixed math problems"}, {"label": "PPI2Pass: Math chapter practice", "url": "https://ppi2pass.com", "note": "FE Other Disciplines Practice+"}]
+    ]
   },
   {
     id: 3, title: "Probability & Statistics", phase: 1, tag: "foundation",
@@ -1398,8 +1431,7 @@ const WEEKS = [
             { q: "When do you use the Poisson distribution vs binomial?", a: "Poisson: rare events in continuous time/space with known average rate. Binomial: fixed n trials, each with probability p." },
             { q: "For a normal distribution, what % of data falls within ±2σ?", a: "~95.4% — handbook Z-table confirms: Z=2.00 → 0.9772 each tail" },
             { q: "What is the formula for MTBF (mean time between failures)?", a: "MTBF = 1/λ where λ is the failure rate — find in handbook Probability section" },
-          ],
-          sources: [{"label": "Lindeburg Ch. 11 \u2014 Probability & Statistics", "url": null, "note": "FE Other Disciplines Review Manual"}, {"label": "NCEES Handbook: Probability & Statistics section", "url": null, "note": "Tab this now"}, {"label": "Khan Academy: Statistics & Probability (free)", "url": "https://www.khanacademy.org/math/statistics-probability", "note": "Counting & probability module"}]
+          ]
         }
       ]},
       { name: "Tue", type: "rest", tasks: [] },
@@ -1416,11 +1448,7 @@ const WEEKS = [
         { title: "Calculator: stat functions drill", type: "review", hours: 0.5, problems: 0, desc: "TI-36X Pro or Casio: practice statistical calculations. Know 1-var stats, regression from calculator." }
       ]},
       { name: "Sun", type: "rest", tasks: [] },
-    ],
-          sources: [{"label": "Lindeburg Ch. 11 \u2014 Distributions", "url": null, "note": ""}, {"label": "NCEES Handbook: Probability \u2014 distribution tables", "url": null, "note": "Z-table, t-table \u2014 practice reading them"}, {"label": "Engineer4Free: Probability & Stats", "url": "https://www.engineer4free.com/statistics", "note": "Free videos"}],
-          sources: [{"label": "StudyForFE.com \u2014 Probability", "url": "https://www.studyforfe.com", "note": "Filter by topic"}, {"label": "PPI2Pass FE Practice+", "url": "https://ppi2pass.com", "note": "Probability & Statistics chapter"}],
-          sources: [{"label": "Lindeburg Ch. 11 \u2014 Hypothesis Testing", "url": null, "note": ""}, {"label": "NCEES Handbook: Probability \u2014 hypothesis testing", "url": null, "note": ""}],
-          sources: [{"label": "Lindeburg Ch. 11 \u2014 Regression & Reliability", "url": null, "note": ""}, {"label": "NCEES Handbook: Probability \u2014 linear regression section", "url": null, "note": ""}]
+    ]
   },
   {
     id: 4, title: "Engineering Economics", phase: 1, tag: "foundation",
@@ -1436,8 +1464,7 @@ const WEEKS = [
             { q: "What does the factor (P/F, i%, n) give you?", a: "Present value of a single future payment F. Find in handbook econ tables." },
             { q: "NPV decision rule: when do you accept a project?", a: "Accept when NPV > 0. Higher NPV = more value added." },
             { q: "What depreciation method does MACRS use in early years?", a: "Double-declining balance switching to straight-line — handbook has the % tables by asset class." },
-          ],
-          sources: [{"label": "Lindeburg Ch. 86 \u2014 Engineering Economics", "url": null, "note": "FE Other Disciplines Review Manual"}, {"label": "NCEES Handbook: Engineering Economics section", "url": null, "note": "Factor tables are all here \u2014 learn to use them"}, {"label": "Engineer4Free: Engineering Economics (free)", "url": "https://www.engineer4free.com/engineering-economics", "note": "Clear TVM walkthrough"}]
+          ]
         }
       ]},
       { name: "Tue", type: "rest", tasks: [] },
@@ -1455,12 +1482,7 @@ const WEEKS = [
         { title: "Anki review", type: "anki", hours: 0.5, problems: 0, desc: "All due cards. Economics target: 85%+ before moving on. Any card you're consistently getting wrong should be rewritten as a scenario: 'You need to compare two projects with unequal lives. What method do you use?'" }
       ]},
       { name: "Sun", type: "rest", tasks: [] },
-    ],
-          sources: [{"label": "Lindeburg Ch. 86 \u2014 Decision Methods", "url": null, "note": ""}, {"label": "StudyForFE.com \u2014 Economics", "url": "https://www.studyforfe.com", "note": ""}],
-          sources: [{"label": "Lindeburg Ch. 86 end-of-chapter problems", "url": null, "note": ""}, {"label": "PPI2Pass: Engineering Economics chapter", "url": "https://ppi2pass.com", "note": ""}],
-          sources: [{"label": "Lindeburg Ch. 86 \u2014 Depreciation", "url": null, "note": "Straight-line, MACRS, DDB"}, {"label": "NCEES Handbook: Engineering Economics \u2014 depreciation tables", "url": null, "note": ""}],
-          sources: [{"label": "Lindeburg Ch. 86 \u2014 Break-even Analysis", "url": null, "note": ""}],
-          sources: [{"label": "StudyForFE.com \u2014 Economics", "url": "https://www.studyforfe.com", "note": "20+ economics problems"}, {"label": "PPI2Pass Practice+", "url": "https://ppi2pass.com", "note": "Economics section"}]
+    ]
   },
   {
     id: 5, title: "Ethics & Professional Practice", phase: 1, tag: "foundation",
@@ -1476,8 +1498,7 @@ const WEEKS = [
             { q: "Engineer discovers a safety risk to the public. Client says stay quiet. What does the NSPE code require?", a: "Engineer must prioritize public safety above client loyalty. Disclose if necessary to protect the public." },
             { q: "In ethics scenarios, what is the priority order?", a: "1. Public health & safety  2. Employer/client  3. Personal interest" },
             { q: "Can an engineer sign off work outside their area of competence?", a: "No — NSPE code requires practicing only in areas of competence." },
-          ],
-          sources: [{"label": "NSPE Code of Ethics (free)", "url": "https://www.nspe.org/resources/ethics/code-ethics", "note": "Read once \u2014 then questions only"}]
+          ]
         }
       ]},
       { name: "Tue", type: "rest", tasks: [] },
@@ -1492,10 +1513,7 @@ const WEEKS = [
         { title: "Chemistry: thermochemistry & equilibrium", type: "study", hours: 1.5, problems: 10, desc: "Enthalpy, Gibbs free energy, Le Chatelier's principle, equilibrium constants." }
       ]},
       { name: "Sun", type: "rest", tasks: [] },
-    ],
-          sources: [{"label": "StudyForFE.com \u2014 Ethics", "url": "https://www.studyforfe.com", "note": "Filter by Ethics & Professional Practice"}, {"label": "PPI2Pass: Ethics chapter", "url": "https://ppi2pass.com", "note": ""}, {"label": "NCEES Official Practice Exam", "url": "https://ncees.org/exams/fe-exam/", "note": "Has ethics questions \u2014 $45, buy now"}],
-          sources: [{"label": "Lindeburg Ch. 21 \u2014 Chemistry", "url": null, "note": "FE Other Disciplines Review Manual"}, {"label": "NCEES Handbook: Chemistry section", "url": null, "note": "Tab it"}, {"label": "Khan Academy: Chemistry (free)", "url": "https://www.khanacademy.org/science/chemistry", "note": "Stoichiometry module"}],
-          sources: [{"label": "Lindeburg Ch. 21 \u2014 Thermochemistry", "url": null, "note": ""}, {"label": "NCEES Handbook: Chemistry \u2014 Gibbs free energy, equilibrium", "url": null, "note": ""}]
+    ]
   },
   {
     id: 6, title: "Chemistry Continued + Weeks 1-5 Review", phase: 1, tag: "foundation",
@@ -1514,10 +1532,7 @@ const WEEKS = [
           desc: "Review all due cards. When reviewing: if you get a card wrong, don't just read the answer — work through why you had it wrong and add a note to the card's description.",
           ankiCards: [
             { q: "Audit question: Which topic's cards are you getting wrong most often?", a: "Tag those cards. If a whole category is failing, the issue is conceptual — go back to problems, not more cards." },
-          ],
-          sources: [{"label": "Lindeburg Ch. 21 \u2014 Electrochemistry", "url": null, "note": ""}, {"label": "NCEES Handbook: Chemistry \u2014 Nernst equation", "url": null, "note": ""}],
-          sources: [{"label": "StudyForFE.com \u2014 Chemistry", "url": "https://www.studyforfe.com", "note": ""}, {"label": "PPI2Pass: Chemistry chapter", "url": "https://ppi2pass.com", "note": ""}],
-          sources: [{"label": "StudyForFE.com \u2014 Math + Stats", "url": "https://www.studyforfe.com", "note": "Pull mixed questions from these topics"}, {"label": "PPI2Pass Practice+ \u2014 filter by topic", "url": "https://ppi2pass.com", "note": ""}]
+          ]
         }
       ]},
       { name: "Thu", type: "rest", tasks: [] },
@@ -1529,9 +1544,7 @@ const WEEKS = [
         { title: "Calculator practice", type: "review", hours: 0.5, problems: 0, desc: "Solver mode, stat functions, unit conversions. Must be fluid by exam day." }
       ]},
       { name: "Sun", type: "rest", tasks: [] },
-    ],
-          sources: [{"label": "StudyForFE.com \u2014 Economics + Ethics", "url": "https://www.studyforfe.com", "note": ""}, {"label": "NCEES Official Practice Exam", "url": "https://ncees.org/exams/fe-exam/", "note": "Has questions from all these topics"}],
-          sources: [{"label": "NCEES FE Reference Handbook", "url": "https://ncees.org/exams/fe-exam/", "note": "Use the official PDF \u2014 same one as exam day"}]
+    ]
   },
   {
     id: 7, title: "Engineering Sciences (Supplemental)", phase: 1, tag: "foundation",
@@ -1555,19 +1568,14 @@ const WEEKS = [
           ankiCards: [
             { q: "What is the Doppler shift formula for a moving source?", a: "f_obs = f_s × (v ± v_obs)/(v ∓ v_s) — find exact form in handbook. Card only if you mixed up the signs." },
             { q: "Radioactive decay: what is the half-life formula?", a: "N(t) = N₀ × (1/2)^(t/t½) or N₀e^(-λt) where λ = ln2/t½" },
-          ],
-          sources: [{"label": "Lindeburg Ch. 17 \u2014 Engineering Sciences", "url": null, "note": "FE Other Disciplines Review Manual"}, {"label": "NCEES Handbook: Engineering Sciences section", "url": null, "note": ""}],
-          sources: [{"label": "Lindeburg Ch. 17 \u2014 Wave Mechanics", "url": null, "note": ""}, {"label": "NCEES Handbook: Engineering Sciences \u2014 wave equations", "url": null, "note": ""}],
-          sources: [{"label": "StudyForFE.com \u2014 Engineering Sciences", "url": "https://www.studyforfe.com", "note": ""}, {"label": "PPI2Pass: Engineering Sciences chapter", "url": "https://ppi2pass.com", "note": ""}],
-          sources: [{"label": "Lindeburg Ch. 17 \u2014 Nuclear", "url": null, "note": "Brief coverage only \u2014 matches exam weight"}, {"label": "NCEES Handbook: Engineering Sciences \u2014 nuclear section", "url": null, "note": ""}]
+          ]
         }
       ]},
       { name: "Sat", type: "study", tasks: [
         { title: "Mixed Phase 1 review", type: "review", hours: 2, problems: 20, desc: "Pull 20 random problems from weeks 1-7. Simulate exam-like timed conditions (3.5 min/problem)." }
       ]},
       { name: "Sun", type: "rest", tasks: [] },
-    ],
-          sources: [{"label": "StudyForFE.com \u2014 Mixed", "url": "https://www.studyforfe.com", "note": "Custom mixed sets"}, {"label": "PPI2Pass Practice+ \u2014 all Phase 1 topics", "url": "https://ppi2pass.com", "note": ""}]
+    ]
   },
   {
     id: 8, title: "Phase 1 Diagnostic Checkpoint", phase: 1, tag: "foundation",
@@ -1593,11 +1601,7 @@ const WEEKS = [
         { title: "Plan Phase 2 adjustments", type: "review", hours: 0.5, problems: 0, desc: "Review Phase 2 schedule. Allocate extra time to weak areas within each week's topics." }
       ]},
       { name: "Sun", type: "rest", tasks: [] },
-    ],
-          sources: [{"label": "Lindeburg \u2014 all Phase 1 chapters", "url": null, "note": "Ch. 3 (Math), Ch. 11 (Stats), Ch. 86 (Econ), Ch. 21 (Chem), Ch. 17 (Sci)"}, {"label": "Your Anki deck", "url": null, "note": "Review full deck \u2014 identify still-weak cards"}],
-          sources: [{"label": "NCEES Official Practice Exam", "url": "https://ncees.org/exams/fe-exam/", "note": "Best source for realistic exam-style questions \u2014 $45"}, {"label": "PPI2Pass Practice+ \u2014 timed mode", "url": "https://ppi2pass.com", "note": "Set to 55 questions, timed"}],
-          sources: [{"label": "NCEES Official Practice Exam solutions", "url": "https://ncees.org/exams/fe-exam/", "note": "Detailed solution explanations included"}, {"label": "NCEES Handbook \u2014 cross-reference every wrong answer", "url": null, "note": "Find where the formula lives"}],
-          sources: [{"label": "StudyForFE.com \u2014 filter by weak topics", "url": "https://www.studyforfe.com", "note": "Topic-specific drilling"}, {"label": "PPI2Pass Practice+ \u2014 topic filter", "url": "https://ppi2pass.com", "note": ""}]
+    ]
   },
   // ==================== PHASE 2 ====================
   {
@@ -1614,8 +1618,7 @@ const WEEKS = [
             { q: "First thing to do on any statics equilibrium problem?", a: "Draw the FBD. Every force, every reaction, every applied load. No exceptions." },
             { q: "Zero-force members in a truss: when does a member carry no force?", a: "1) Joint with 2 members and no external load — both zero. 2) Joint with 3 members, 2 collinear — third is zero." },
             { q: "What does 'moment arm' mean?", a: "Perpendicular distance from the line of action of the force to the moment center. NOT the length of the member." },
-          ],
-          sources: [{"label": "Lindeburg Ch. 41 \u2014 Statics", "url": null, "note": "FE Other Disciplines Review Manual"}, {"label": "Engineer4Free: Statics playlist (free)", "url": "https://www.engineer4free.com/statics", "note": "Start from video 1 \u2014 excellent coverage"}, {"label": "NCEES Handbook: Statics section", "url": null, "note": "Tab it"}]
+          ]
         }
       ]},
       { name: "Tue", type: "rest", tasks: [] },
@@ -1632,12 +1635,7 @@ const WEEKS = [
         { title: "3D force systems intro", type: "study", hours: 1, problems: 6, desc: "Unit vectors, 3D moments. Less common on exam but worth basic coverage." }
       ]},
       { name: "Sun", type: "rest", tasks: [] },
-    ],
-          sources: [{"label": "Lindeburg Ch. 41 \u2014 Equilibrium", "url": null, "note": ""}, {"label": "Engineer4Free: Statics \u2014 Equilibrium videos (free)", "url": "https://www.engineer4free.com/statics", "note": ""}, {"label": "NCEES Handbook: Statics \u2014 equilibrium equations", "url": null, "note": ""}],
-          sources: [{"label": "Lindeburg Ch. 41 practice problems", "url": null, "note": "End-of-chapter"}, {"label": "StudyForFE.com \u2014 Statics", "url": "https://www.studyforfe.com", "note": ""}],
-          sources: [{"label": "Lindeburg Ch. 41 \u2014 Trusses", "url": null, "note": ""}, {"label": "Engineer4Free: Statics \u2014 Truss videos (free)", "url": "https://www.engineer4free.com/statics", "note": "Method of joints series"}, {"label": "NCEES Handbook: Statics \u2014 trusses", "url": null, "note": ""}],
-          sources: [{"label": "Lindeburg Ch. 41 \u2014 Method of Sections", "url": null, "note": ""}, {"label": "Engineer4Free: Statics \u2014 Method of Sections (free)", "url": "https://www.engineer4free.com/statics", "note": ""}],
-          sources: [{"label": "Lindeburg Ch. 41 \u2014 3D Statics", "url": null, "note": ""}, {"label": "NCEES Handbook: Statics \u2014 3D section", "url": null, "note": ""}]
+    ]
   },
   {
     id: 10, title: "Statics — Part 2: Centroids, MoI, Friction", phase: 2, tag: "core",
@@ -1653,8 +1651,7 @@ const WEEKS = [
             { q: "Parallel axis theorem formula?", a: "I = I_cm + Ad² — d is distance from centroidal axis, not from origin" },
             { q: "What is the MoI of a rectangle about its centroidal axis?", a: "I = bh³/12 — handbook has this. Card: which dimension is h? The one parallel to the axis you're computing about." },
             { q: "Composite centroid: what is the formula for x̄?", a: "x̄ = Σ(Aᵢxᵢ)/ΣAᵢ — sum of (area × centroid distance) divided by total area" },
-          ],
-          sources: [{"label": "Lindeburg Ch. 41 \u2014 Centroids", "url": null, "note": ""}, {"label": "Engineer4Free: Statics \u2014 Centroids (free)", "url": "https://www.engineer4free.com/statics", "note": ""}, {"label": "NCEES Handbook: Statics \u2014 centroid tables", "url": null, "note": "Common shapes listed \u2014 use the table"}]
+          ]
         }
       ]},
       { name: "Tue", type: "rest", tasks: [] },
@@ -1671,11 +1668,7 @@ const WEEKS = [
         { title: "Anki review", type: "anki", hours: 0.5, problems: 0, desc: "All due cards — 15 min cap. If you are over 30 cards due, something broke in your daily review habit. Get back on the daily schedule." }
       ]},
       { name: "Sun", type: "rest", tasks: [] },
-    ],
-          sources: [{"label": "Lindeburg Ch. 41 \u2014 Moment of Inertia", "url": null, "note": ""}, {"label": "Engineer4Free: Statics \u2014 MoI videos (free)", "url": "https://www.engineer4free.com/statics", "note": ""}, {"label": "NCEES Handbook: Statics \u2014 MoI tables", "url": null, "note": ""}],
-          sources: [{"label": "StudyForFE.com \u2014 Statics", "url": "https://www.studyforfe.com", "note": "Filter by centroids/MoI"}, {"label": "Lindeburg Ch. 41 practice problems", "url": null, "note": ""}],
-          sources: [{"label": "Lindeburg Ch. 41 \u2014 Friction", "url": null, "note": ""}, {"label": "NCEES Handbook: Statics \u2014 friction section", "url": null, "note": ""}],
-          sources: [{"label": "StudyForFE.com \u2014 Statics", "url": "https://www.studyforfe.com", "note": "20 mixed statics problems"}, {"label": "PPI2Pass Practice+ \u2014 Statics chapter", "url": "https://ppi2pass.com", "note": ""}]
+    ]
   },
   {
     id: 11, title: "Dynamics — Kinematics", phase: 2, tag: "core",
@@ -1691,8 +1684,7 @@ const WEEKS = [
             { q: "You know v₀, a, and t. Need v. Which kinematic equation?", a: "v = v₀ + at — no position needed" },
             { q: "You know v₀, v, and x. Need t. Which equation?", a: "v² = v₀² + 2ax — rearrange for x first, then use v = v₀ + at for t. Or use x = (v+v₀)/2 × t directly." },
             { q: "In projectile motion, what is the acceleration in the x-direction?", a: "Zero. Only gravity acts, and only in y. This is the most common setup error." },
-          ],
-          sources: [{"label": "Lindeburg Ch. 55 \u2014 Dynamics", "url": null, "note": "FE Other Disciplines Review Manual"}, {"label": "Engineer4Free: Dynamics \u2014 Kinematics (free)", "url": "https://www.engineer4free.com/dynamics", "note": "Start here"}, {"label": "NCEES Handbook: Dynamics section", "url": null, "note": "Tab it"}]
+          ]
         }
       ]},
       { name: "Tue", type: "rest", tasks: [] },
@@ -1709,11 +1701,7 @@ const WEEKS = [
         { title: "Anki review", type: "anki", hours: 0.5, problems: 0, desc: "All due cards." }
       ]},
       { name: "Sun", type: "rest", tasks: [] },
-    ],
-          sources: [{"label": "Lindeburg Ch. 55 \u2014 Projectile Motion", "url": null, "note": ""}, {"label": "Engineer4Free: Dynamics \u2014 Projectile (free)", "url": "https://www.engineer4free.com/dynamics", "note": ""}],
-          sources: [{"label": "Lindeburg Ch. 55 \u2014 Curvilinear Motion", "url": null, "note": ""}, {"label": "NCEES Handbook: Dynamics \u2014 normal-tangential section", "url": null, "note": ""}],
-          sources: [{"label": "Lindeburg Ch. 55 \u2014 Rigid Body Kinematics", "url": null, "note": ""}, {"label": "Engineer4Free: Dynamics \u2014 Rotation (free)", "url": "https://www.engineer4free.com/dynamics", "note": ""}],
-          sources: [{"label": "StudyForFE.com \u2014 Dynamics", "url": "https://www.studyforfe.com", "note": ""}, {"label": "Lindeburg Ch. 55 practice problems", "url": null, "note": ""}]
+    ]
   },
   {
     id: 12, title: "Dynamics — Kinetics & Vibrations", phase: 2, tag: "core",
@@ -1738,12 +1726,7 @@ const WEEKS = [
         { title: "Anki + dynamics review", type: "anki", hours: 0.5, problems: 0, desc: "Add natural frequency formula, damping ratio definition." }
       ]},
       { name: "Sun", type: "rest", tasks: [] },
-    ],
-          sources: [{"label": "Lindeburg Ch. 55 \u2014 Kinetics", "url": null, "note": ""}, {"label": "Engineer4Free: Dynamics \u2014 Newton's Laws (free)", "url": "https://www.engineer4free.com/dynamics", "note": ""}, {"label": "NCEES Handbook: Dynamics \u2014 kinetics section", "url": null, "note": ""}],
-          sources: [{"label": "Lindeburg Ch. 55 \u2014 Work & Energy", "url": null, "note": ""}, {"label": "Engineer4Free: Dynamics \u2014 Work-Energy (free)", "url": "https://www.engineer4free.com/dynamics", "note": ""}],
-          sources: [{"label": "StudyForFE.com \u2014 Dynamics", "url": "https://www.studyforfe.com", "note": ""}, {"label": "PPI2Pass Practice+ \u2014 Dynamics chapter", "url": "https://ppi2pass.com", "note": ""}],
-          sources: [{"label": "Lindeburg Ch. 55 \u2014 Impulse-Momentum", "url": null, "note": ""}, {"label": "Engineer4Free: Dynamics \u2014 Impulse (free)", "url": "https://www.engineer4free.com/dynamics", "note": ""}],
-          sources: [{"label": "Lindeburg Ch. 57 \u2014 Vibrations", "url": null, "note": "FE Other Disciplines Review Manual"}, {"label": "NCEES Handbook: Dynamics \u2014 vibrations section", "url": null, "note": "Natural frequency, damping formulas"}, {"label": "Chad's Prep: Vibrations (YouTube, free)", "url": "https://www.youtube.com/@chads_prep", "note": "FE exam-focused videos"}]
+    ]
   },
   {
     id: 13, title: "Electricity & Magnetism — DC Circuits", phase: 2, tag: "core",
@@ -1768,12 +1751,7 @@ const WEEKS = [
         { title: "Anki review", type: "anki", hours: 0.5, problems: 0, desc: "All due cards. Add any new circuit theorems." }
       ]},
       { name: "Sun", type: "rest", tasks: [] },
-    ],
-          sources: [{"label": "Lindeburg Ch. 33 \u2014 Electrical Theory", "url": null, "note": "FE Other Disciplines Review Manual"}, {"label": "NCEES Handbook: Electricity & Magnetism section", "url": null, "note": "Tab it \u2014 KVL/KCL, Ohm's Law"}, {"label": "All About Circuits (free)", "url": "https://www.allaboutcircuits.com/textbook/", "note": "DC circuits textbook \u2014 Ch. 1-5"}],
-          sources: [{"label": "Lindeburg Ch. 33 \u2014 Thevenin/Norton", "url": null, "note": ""}, {"label": "All About Circuits: Thevenin theorem (free)", "url": "https://www.allaboutcircuits.com/textbook/direct-current/chpt-10/", "note": "Ch. 10"}, {"label": "StudyForFE.com \u2014 Electricity", "url": "https://www.studyforfe.com", "note": ""}],
-          sources: [{"label": "StudyForFE.com \u2014 Electricity & Magnetism", "url": "https://www.studyforfe.com", "note": "18 DC circuit problems"}, {"label": "PPI2Pass Practice+ \u2014 Electricity chapter", "url": "https://ppi2pass.com", "note": ""}],
-          sources: [{"label": "Lindeburg Ch. 33 \u2014 Transient Analysis", "url": null, "note": ""}, {"label": "NCEES Handbook: Electricity \u2014 transient section", "url": null, "note": "Time constants listed"}, {"label": "All About Circuits: RC & RL circuits (free)", "url": "https://www.allaboutcircuits.com/textbook/alternating-current/chpt-4/", "note": ""}],
-          sources: [{"label": "Lindeburg Ch. 33 \u2014 Magnetism", "url": null, "note": ""}, {"label": "NCEES Handbook: Electricity & Magnetism \u2014 magnetic section", "url": null, "note": ""}]
+    ]
   },
   {
     id: 14, title: "Electricity & Magnetism — AC Circuits & Power", phase: 2, tag: "core",
@@ -1798,13 +1776,7 @@ const WEEKS = [
         { title: "Full E&M review", type: "review", hours: 1.5, problems: 15, desc: "Mixed E&M problem set. Target: 90%+ accuracy. Note any remaining gaps." }
       ]},
       { name: "Sun", type: "rest", tasks: [] },
-    ],
-          sources: [{"label": "Lindeburg Ch. 33 \u2014 AC Circuits", "url": null, "note": ""}, {"label": "NCEES Handbook: Electricity \u2014 phasor / impedance section", "url": null, "note": ""}, {"label": "All About Circuits: AC chapter (free)", "url": "https://www.allaboutcircuits.com/textbook/alternating-current/", "note": "Ch. 1-5"}],
-          sources: [{"label": "Lindeburg Ch. 33 \u2014 AC Power", "url": null, "note": ""}, {"label": "NCEES Handbook: Electricity \u2014 power factor section", "url": null, "note": ""}, {"label": "Chad's Prep: AC Power (YouTube, free)", "url": "https://www.youtube.com/@chads_prep", "note": "Search 'FE exam AC power'"}],
-          sources: [{"label": "StudyForFE.com \u2014 Electricity", "url": "https://www.studyforfe.com", "note": "AC power problems"}, {"label": "PPI2Pass Practice+ \u2014 AC circuits", "url": "https://ppi2pass.com", "note": ""}],
-          sources: [{"label": "Lindeburg Ch. 33 \u2014 Three-Phase", "url": null, "note": ""}, {"label": "NCEES Handbook: Electricity \u2014 three-phase section", "url": null, "note": ""}],
-          sources: [{"label": "Lindeburg Ch. 33 \u2014 Electronics", "url": null, "note": "Brief overview only"}, {"label": "NCEES Handbook: Electricity \u2014 semiconductor section", "url": null, "note": ""}],
-          sources: [{"label": "StudyForFE.com \u2014 Electricity & Magnetism", "url": "https://www.studyforfe.com", "note": "Mixed E&M problem set"}, {"label": "PPI2Pass Practice+ \u2014 full E&M chapter", "url": "https://ppi2pass.com", "note": ""}]
+    ]
   },
   {
     id: 15, title: "Thermodynamics — Part 1: Laws & Properties", phase: 2, tag: "core",
@@ -1820,8 +1792,7 @@ const WEEKS = [
             { q: "To find h at a superheated state (T,P), what do you do in the handbook?", a: "Go to superheated steam tables, find the right P table, interpolate for T. h is directly listed — no calculation needed." },
             { q: "What is the difference between u and h?", a: "h = u + Pv. h is used for open systems (flow work included). u for closed systems." },
             { q: "For an isentropic process in steam, what is conserved?", a: "Entropy s. On the tables: s₁ = s₂. Use this to find the final state." },
-          ],
-          sources: [{"label": "Lindeburg Ch. 24 \u2014 Thermodynamics", "url": null, "note": "FE Other Disciplines Review Manual"}, {"label": "NCEES Handbook: Thermodynamics section", "url": null, "note": "Tab it \u2014 first law, properties"}, {"label": "Chad's Prep: Thermodynamics (YouTube, free)", "url": "https://www.youtube.com/@chads_prep", "note": "FE-focused thermo series"}]
+          ]
         }
       ]},
       { name: "Tue", type: "rest", tasks: [] },
@@ -1838,12 +1809,7 @@ const WEEKS = [
         { title: "Thermo practice set A", type: "practice", hours: 1.5, problems: 15, desc: "Mixed thermo problems. Time each problem. Practice steam table lookups." }
       ]},
       { name: "Sun", type: "rest", tasks: [] },
-    ],
-          sources: [{"label": "Lindeburg Ch. 24 \u2014 Open Systems", "url": null, "note": ""}, {"label": "NCEES Handbook: Thermodynamics \u2014 steady-state energy balance", "url": null, "note": ""}, {"label": "Chad's Prep: Open System / CV (YouTube, free)", "url": "https://www.youtube.com/@chads_prep", "note": ""}],
-          sources: [{"label": "Lindeburg Ch. 24 \u2014 Properties of Fluids", "url": null, "note": ""}, {"label": "NCEES Handbook: Thermodynamics \u2014 steam tables", "url": null, "note": "Practice navigating: saturated, superheated tables"}],
-          sources: [{"label": "Lindeburg Ch. 24 \u2014 Second Law", "url": null, "note": ""}, {"label": "NCEES Handbook: Thermodynamics \u2014 entropy section", "url": null, "note": ""}],
-          sources: [{"label": "Lindeburg Ch. 24 \u2014 Ideal Gas", "url": null, "note": ""}, {"label": "NCEES Handbook: Thermodynamics \u2014 ideal gas section", "url": null, "note": ""}],
-          sources: [{"label": "StudyForFE.com \u2014 Thermodynamics", "url": "https://www.studyforfe.com", "note": ""}, {"label": "PPI2Pass Practice+ \u2014 Thermodynamics chapter", "url": "https://ppi2pass.com", "note": ""}]
+    ]
   },
   {
     id: 16, title: "Thermodynamics — Part 2: Power Cycles", phase: 2, tag: "core",
@@ -1869,14 +1835,7 @@ const WEEKS = [
         { title: "Full thermodynamics review", type: "review", hours: 1.5, problems: 15, desc: "Mixed thermo problem set. Focus on cycles and steam table problems." }
       ]},
       { name: "Sun", type: "rest", tasks: [] },
-    ],
-          sources: [{"label": "Lindeburg Ch. 24 \u2014 Power Cycles", "url": null, "note": ""}, {"label": "NCEES Handbook: Thermodynamics \u2014 Carnot cycle", "url": null, "note": ""}],
-          sources: [{"label": "Lindeburg Ch. 24 \u2014 Rankine Cycle", "url": null, "note": ""}, {"label": "Chad's Prep: Rankine Cycle (YouTube, free)", "url": "https://www.youtube.com/@chads_prep", "note": "FE exam Rankine walkthrough"}, {"label": "NCEES Handbook: Thermodynamics \u2014 steam tables for states", "url": null, "note": ""}],
-          sources: [{"label": "Lindeburg Ch. 24 \u2014 Brayton Cycle", "url": null, "note": ""}, {"label": "NCEES Handbook: Thermodynamics \u2014 Brayton cycle section", "url": null, "note": ""}],
-          sources: [{"label": "Lindeburg Ch. 24 \u2014 Refrigeration", "url": null, "note": ""}, {"label": "NCEES Handbook: Thermodynamics \u2014 COP formulas", "url": null, "note": ""}],
-          sources: [{"label": "Lindeburg Ch. 36 \u2014 Heat Transfer", "url": null, "note": "FE Other Disciplines Review Manual"}, {"label": "NCEES Handbook: Heat Transfer section", "url": null, "note": "Tab it \u2014 Fourier's law, thermal resistance"}, {"label": "Chad's Prep: Heat Transfer (YouTube, free)", "url": "https://www.youtube.com/@chads_prep", "note": ""}],
-          sources: [{"label": "Lindeburg Ch. 36 \u2014 Convection & Radiation", "url": null, "note": ""}, {"label": "NCEES Handbook: Heat Transfer \u2014 Newton's cooling, Stefan-Boltzmann", "url": null, "note": ""}],
-          sources: [{"label": "StudyForFE.com \u2014 Thermodynamics", "url": "https://www.studyforfe.com", "note": "Mixed thermo + heat transfer"}, {"label": "PPI2Pass Practice+ \u2014 Thermodynamics", "url": "https://ppi2pass.com", "note": ""}]
+    ]
   },
   {
     id: 17, title: "Fluid Mechanics — Part 1: Fundamentals", phase: 2, tag: "core",
@@ -1892,8 +1851,7 @@ const WEEKS = [
             { q: "Bernoulli equation: what are the 3 conditions for it to be valid?", a: "1) Steady flow  2) Incompressible fluid  3) Along a streamline  4) Inviscid (no friction losses)" },
             { q: "Reynolds number formula and laminar threshold?", a: "Re = ρVD/μ. Laminar: Re < 2300. Turbulent: Re > 4000. Transitional between." },
             { q: "What is the Darcy-Weisbach head loss equation?", a: "hL = f(L/D)(V²/2g). f from Moody chart, L and D are pipe length and diameter." },
-          ],
-          sources: [{"label": "Lindeburg Ch. 26 \u2014 Fluid Mechanics", "url": null, "note": "FE Other Disciplines Review Manual"}, {"label": "NCEES Handbook: Fluid Mechanics section", "url": null, "note": "Tab it"}, {"label": "Chad's Prep: Fluid Mechanics (YouTube, free)", "url": "https://www.youtube.com/@chads_prep", "note": "Start from the beginning"}]
+          ]
         }
       ]},
       { name: "Tue", type: "rest", tasks: [] },
@@ -1910,12 +1868,7 @@ const WEEKS = [
         { title: "Fluids mixed practice", type: "practice", hours: 2, problems: 20, desc: "Mixed problem set. Time each problem. Note which sub-areas need more work." }
       ]},
       { name: "Sun", type: "rest", tasks: [] },
-    ],
-          sources: [{"label": "Lindeburg Ch. 26 \u2014 Bernoulli Equation", "url": null, "note": ""}, {"label": "Engineer4Free: Fluid Mechanics (free)", "url": "https://www.engineer4free.com/fluid-mechanics", "note": "Bernoulli section"}, {"label": "NCEES Handbook: Fluid Mechanics \u2014 Bernoulli equation", "url": null, "note": ""}],
-          sources: [{"label": "StudyForFE.com \u2014 Fluid Mechanics", "url": "https://www.studyforfe.com", "note": ""}, {"label": "Lindeburg Ch. 26 practice problems", "url": null, "note": ""}],
-          sources: [{"label": "Lindeburg Ch. 26 \u2014 Reynolds Number", "url": null, "note": ""}, {"label": "NCEES Handbook: Fluid Mechanics \u2014 Reynolds number section", "url": null, "note": ""}],
-          sources: [{"label": "Lindeburg Ch. 26 \u2014 Dimensional Analysis", "url": null, "note": ""}, {"label": "NCEES Handbook: Fluid Mechanics \u2014 Buckingham Pi", "url": null, "note": ""}],
-          sources: [{"label": "StudyForFE.com \u2014 Fluid Mechanics", "url": "https://www.studyforfe.com", "note": ""}, {"label": "PPI2Pass Practice+ \u2014 Fluid Mechanics", "url": "https://ppi2pass.com", "note": ""}]
+    ]
   },
   {
     id: 18, title: "Fluid Mechanics — Part 2: Pipe Flow & First Full Exam", phase: 2, tag: "core",
@@ -1943,13 +1896,7 @@ const WEEKS = [
       { name: "Sun", type: "study", tasks: [
         { title: "Exam #1 review & error analysis", type: "review", hours: 3, problems: 0, desc: "Review every wrong answer. Categorize errors. Identify your 3 lowest-performing topic areas. Plan Phase 3 adjustments." }
       ]},
-    ],
-          sources: [{"label": "Lindeburg Ch. 26 \u2014 Pipe Flow", "url": null, "note": ""}, {"label": "NCEES Handbook: Fluid Mechanics \u2014 Moody chart, Darcy-Weisbach", "url": null, "note": "Practice reading the Moody chart"}, {"label": "Chad's Prep: Pipe Flow (YouTube, free)", "url": "https://www.youtube.com/@chads_prep", "note": ""}],
-          sources: [{"label": "Lindeburg Ch. 26 \u2014 Pumps & Turbines", "url": null, "note": ""}, {"label": "NCEES Handbook: Fluid Mechanics \u2014 pump equations, affinity laws", "url": null, "note": ""}],
-          sources: [{"label": "Lindeburg Ch. 26 \u2014 Open Channel Flow", "url": null, "note": ""}, {"label": "NCEES Handbook: Fluid Mechanics \u2014 Manning equation", "url": null, "note": ""}],
-          sources: [{"label": "Your Anki deck \u2014 full review", "url": null, "note": ""}, {"label": "NCEES Handbook \u2014 scan all tabbed sections", "url": null, "note": ""}],
-          sources: [{"label": "NCEES Official Practice Exam (recommended)", "url": "https://ncees.org/exams/fe-exam/", "note": "$45 \u2014 most realistic source. Use for Exam #1"}, {"label": "PPI2Pass Practice+ \u2014 full exam mode", "url": "https://ppi2pass.com", "note": "Alternative if NCEES exam already used"}],
-          sources: [{"label": "NCEES Official Practice Exam solutions", "url": "https://ncees.org/exams/fe-exam/", "note": "Detailed solutions included"}, {"label": "NCEES Handbook \u2014 locate every missed formula", "url": null, "note": ""}]
+    ]
   },
   // ==================== PHASE 3 ====================
   {
@@ -1966,8 +1913,7 @@ const WEEKS = [
             { q: "What is the difference between ductility and toughness?", a: "Ductility = ability to deform plastically before fracture (% elongation). Toughness = energy absorbed before fracture (area under stress-strain curve)." },
             { q: "On a stress-strain curve, what is the elastic modulus?", a: "Slope of the linear (elastic) region. E = σ/ε. Steel ≈ 200 GPa." },
             { q: "What does atomic packing factor (APF) represent?", a: "Fraction of unit cell volume occupied by atoms. FCC = 0.74, BCC = 0.68, SC = 0.52." },
-          ],
-          sources: [{"label": "Lindeburg Ch. 45 \u2014 Materials Science", "url": null, "note": "FE Other Disciplines Review Manual"}, {"label": "NCEES Handbook: Materials Science section", "url": null, "note": "Tab it"}, {"label": "Khan Academy: Materials Science (free)", "url": "https://www.khanacademy.org/science/ap-chemistry-beta/x2eef969c74e0d802:unit-2-molecular-and-ionic-compound-structure-and-properties", "note": "Bonding module"}]
+          ]
         }
       ]},
       { name: "Tue", type: "rest", tasks: [] },
@@ -1984,12 +1930,7 @@ const WEEKS = [
         { title: "Materials practice set A", type: "practice", hours: 1.5, problems: 12, desc: "Mixed materials problems. Focus on stress-strain and thermal properties." }
       ]},
       { name: "Sun", type: "rest", tasks: [] },
-    ],
-          sources: [{"label": "Lindeburg Ch. 45 \u2014 Mechanical Properties", "url": null, "note": ""}, {"label": "NCEES Handbook: Materials Science \u2014 mechanical properties", "url": null, "note": ""}, {"label": "Chad's Prep: Materials Science (YouTube, free)", "url": "https://www.youtube.com/@chads_prep", "note": "Stress-strain curve walkthrough"}],
-          sources: [{"label": "StudyForFE.com \u2014 Materials Science", "url": "https://www.studyforfe.com", "note": ""}, {"label": "PPI2Pass Practice+ \u2014 Materials chapter", "url": "https://ppi2pass.com", "note": ""}],
-          sources: [{"label": "Lindeburg Ch. 45 \u2014 Deformation", "url": null, "note": ""}, {"label": "NCEES Handbook: Materials Science \u2014 deformation section", "url": null, "note": ""}],
-          sources: [{"label": "Lindeburg Ch. 45 \u2014 Thermal Properties", "url": null, "note": ""}, {"label": "NCEES Handbook: Materials Science \u2014 thermal properties table", "url": null, "note": ""}],
-          sources: [{"label": "StudyForFE.com \u2014 Materials Science", "url": "https://www.studyforfe.com", "note": ""}, {"label": "Lindeburg Ch. 45 practice problems", "url": null, "note": ""}]
+    ]
   },
   {
     id: 20, title: "Materials Science — Part 2: Phase Diagrams & Failure", phase: 3, tag: "mastery",
@@ -2015,13 +1956,7 @@ const WEEKS = [
         { title: "Anki review", type: "anki", hours: 0.5, problems: 0, desc: "All due cards." }
       ]},
       { name: "Sun", type: "rest", tasks: [] },
-    ],
-          sources: [{"label": "Lindeburg Ch. 45 \u2014 Phase Diagrams", "url": null, "note": ""}, {"label": "NCEES Handbook: Materials Science \u2014 phase diagram section", "url": null, "note": ""}, {"label": "Chad's Prep: Phase Diagrams (YouTube, free)", "url": "https://www.youtube.com/@chads_prep", "note": "Lever rule walkthrough"}],
-          sources: [{"label": "Lindeburg Ch. 45 \u2014 Corrosion", "url": null, "note": ""}, {"label": "NCEES Handbook: Materials Science \u2014 corrosion section", "url": null, "note": "Galvanic series table"}],
-          sources: [{"label": "StudyForFE.com \u2014 Materials Science", "url": "https://www.studyforfe.com", "note": ""}, {"label": "PPI2Pass Practice+ \u2014 Materials chapter", "url": "https://ppi2pass.com", "note": ""}],
-          sources: [{"label": "Lindeburg Ch. 45 \u2014 Fatigue", "url": null, "note": ""}, {"label": "NCEES Handbook: Materials Science \u2014 fatigue section", "url": null, "note": ""}],
-          sources: [{"label": "Lindeburg Ch. 45 \u2014 Fracture", "url": null, "note": ""}, {"label": "NCEES Handbook: Materials Science \u2014 fracture toughness", "url": null, "note": ""}],
-          sources: [{"label": "StudyForFE.com \u2014 Materials Science", "url": "https://www.studyforfe.com", "note": "Mixed phase diagram + failure problems"}, {"label": "PPI2Pass Practice+ \u2014 Materials", "url": "https://ppi2pass.com", "note": ""}]
+    ]
   },
   {
     id: 21, title: "Mechanics of Materials", phase: 3, tag: "mastery",
@@ -2037,8 +1972,7 @@ const WEEKS = [
             { q: "Bending stress formula and: which fiber has maximum stress?", a: "σ = Mc/I. Maximum stress at the fiber farthest from the neutral axis (largest c)." },
             { q: "In torsion, what does J represent?", a: "Polar moment of inertia. For solid circle: J = πd⁴/32. For hollow: J = π(do⁴-di⁴)/32." },
             { q: "Euler buckling: what changes with each end condition?", a: "The effective length Le = KL. Fixed-fixed K=0.5, Pinned-pinned K=1, Fixed-free K=2." },
-          ],
-          sources: [{"label": "Lindeburg Ch. 44 \u2014 Mechanics of Materials", "url": null, "note": "FE Other Disciplines Review Manual"}, {"label": "Engineer4Free: Mechanics of Materials (free)", "url": "https://www.engineer4free.com/mechanics-of-materials", "note": "Start from video 1"}, {"label": "NCEES Handbook: Mechanics of Materials section", "url": null, "note": "Tab it"}]
+          ]
         }
       ]},
       { name: "Tue", type: "rest", tasks: [] },
@@ -2055,12 +1989,7 @@ const WEEKS = [
         { title: "Combined loading + Mohr's circle intro", type: "study", hours: 1, problems: 8, desc: "Superpose normal and shear stresses. Mohr's circle as a visual tool for principal stresses." }
       ]},
       { name: "Sun", type: "rest", tasks: [] },
-    ],
-          sources: [{"label": "Lindeburg Ch. 44 \u2014 Bending Stress", "url": null, "note": ""}, {"label": "Engineer4Free: MoM \u2014 Bending (free)", "url": "https://www.engineer4free.com/mechanics-of-materials", "note": "Shear/moment diagrams series"}, {"label": "NCEES Handbook: Mechanics of Materials \u2014 flexure formula", "url": null, "note": ""}],
-          sources: [{"label": "StudyForFE.com \u2014 Mechanics of Materials", "url": "https://www.studyforfe.com", "note": ""}, {"label": "Lindeburg Ch. 44 practice problems", "url": null, "note": ""}],
-          sources: [{"label": "Lindeburg Ch. 44 \u2014 Torsion", "url": null, "note": ""}, {"label": "Engineer4Free: MoM \u2014 Torsion (free)", "url": "https://www.engineer4free.com/mechanics-of-materials", "note": ""}, {"label": "NCEES Handbook: Mechanics of Materials \u2014 torsion section", "url": null, "note": ""}],
-          sources: [{"label": "Lindeburg Ch. 44 \u2014 Deflection & Columns", "url": null, "note": ""}, {"label": "NCEES Handbook: Mechanics of Materials \u2014 deflection tables, Euler buckling", "url": null, "note": "Use the handbook deflection tables"}],
-          sources: [{"label": "Lindeburg Ch. 44 \u2014 Combined Loading", "url": null, "note": ""}, {"label": "NCEES Handbook: Mechanics of Materials \u2014 Mohr's circle section", "url": null, "note": ""}]
+    ]
   },
   {
     id: 22, title: "Instrumentation & Measurement + Second Practice Exam", phase: 3, tag: "mastery",
@@ -2088,13 +2017,7 @@ const WEEKS = [
       { name: "Sun", type: "study", tasks: [
         { title: "Exam #2 review & gap identification", type: "review", hours: 2, problems: 0, desc: "Compare to Exam #1. Which topics improved? Which didn't? Plan targeted drilling for weeks 23-24." }
       ]},
-    ],
-          sources: [{"label": "Lindeburg Ch. 71 \u2014 Measurement & Instrumentation", "url": null, "note": "FE Other Disciplines Review Manual"}, {"label": "NCEES Handbook: Instrumentation section", "url": null, "note": "Tab it"}, {"label": "Your own Emerson / field experience", "url": null, "note": "This is your professional background \u2014 connect exam concepts to real instruments you've worked with"}],
-          sources: [{"label": "Lindeburg Ch. 71 \u2014 Signal Conditioning", "url": null, "note": ""}, {"label": "NCEES Handbook: Instrumentation \u2014 ADC, Nyquist section", "url": null, "note": ""}],
-          sources: [{"label": "StudyForFE.com \u2014 Instrumentation", "url": "https://www.studyforfe.com", "note": ""}, {"label": "PPI2Pass Practice+ \u2014 Instrumentation chapter", "url": "https://ppi2pass.com", "note": "Target 90%+ \u2014 this is home territory"}],
-          sources: [{"label": "NCEES Handbook \u2014 all tabs", "url": null, "note": "Scan every section, confirm tab locations"}, {"label": "Your Anki deck \u2014 full review", "url": null, "note": ""}],
-          sources: [{"label": "PPI2Pass Practice+ \u2014 full exam mode", "url": "https://ppi2pass.com", "note": "Use for Exam #2 (save NCEES official for Exam #1)"}, {"label": "StudyForFE.com \u2014 timed full exam", "url": "https://www.studyforfe.com", "note": "Alternative"}],
-          sources: [{"label": "PPI2Pass solutions", "url": "https://ppi2pass.com", "note": "Review every wrong answer with explanations"}, {"label": "NCEES Handbook \u2014 cross-reference all errors", "url": null, "note": ""}]
+    ]
   },
   {
     id: 23, title: "Control Systems Theory", phase: 3, tag: "mastery",
@@ -2119,13 +2042,7 @@ const WEEKS = [
         { title: "Controls full review", type: "review", hours: 1.5, problems: 12, desc: "Mixed controls problems. Target 85%+ accuracy — this is your territory." }
       ]},
       { name: "Sun", type: "rest", tasks: [] },
-    ],
-          sources: [{"label": "Lindeburg Ch. 67 \u2014 Control Systems", "url": null, "note": "FE Other Disciplines Review Manual"}, {"label": "NCEES Handbook: Control Systems section", "url": null, "note": "Tab it \u2014 TF, block diagrams"}, {"label": "Brian Douglas: Control Systems (YouTube, free)", "url": "https://www.youtube.com/@BrianBDouglas", "note": "Best free controls video series. Start with 'Introduction to Control Systems'"}],
-          sources: [{"label": "Lindeburg Ch. 67 \u2014 PID Control", "url": null, "note": ""}, {"label": "Brian Douglas: PID Control (YouTube, free)", "url": "https://www.youtube.com/@BrianBDouglas", "note": "Search 'PID control Brian Douglas'"}, {"label": "NCEES Handbook: Control Systems \u2014 PID section", "url": null, "note": ""}],
-          sources: [{"label": "StudyForFE.com \u2014 Controls", "url": "https://www.studyforfe.com", "note": ""}, {"label": "PPI2Pass Practice+ \u2014 Control Systems chapter", "url": "https://ppi2pass.com", "note": ""}],
-          sources: [{"label": "Lindeburg Ch. 67 \u2014 Bode Plots", "url": null, "note": ""}, {"label": "Brian Douglas: Bode Plots (YouTube, free)", "url": "https://www.youtube.com/@BrianBDouglas", "note": "Excellent visual explanation"}, {"label": "NCEES Handbook: Control Systems \u2014 frequency response", "url": null, "note": ""}],
-          sources: [{"label": "Lindeburg Ch. 67 \u2014 Stability", "url": null, "note": ""}, {"label": "NCEES Handbook: Control Systems \u2014 Routh-Hurwitz section", "url": null, "note": ""}, {"label": "Brian Douglas: Root Locus (YouTube, free)", "url": "https://www.youtube.com/@BrianBDouglas", "note": ""}],
-          sources: [{"label": "StudyForFE.com \u2014 Control Systems", "url": "https://www.studyforfe.com", "note": "Mixed controls problems"}, {"label": "PPI2Pass Practice+ \u2014 Controls", "url": "https://ppi2pass.com", "note": ""}]
+    ]
   },
   {
     id: 24, title: "Targeted Weak Area Reinforcement", phase: 3, tag: "mastery",
@@ -2144,9 +2061,7 @@ const WEEKS = [
           ankiCards: [
             { q: "Card audit rule: when should you rewrite a card?", a: "When you get it wrong 3+ times despite understanding the topic. The card is testing the wrong thing." },
             { q: "Card audit rule: when should you suspend a card?", a: "When you've answered it correctly 5+ times in a row. It's in long-term memory. Free up review time for harder cards." },
-          ],
-          sources: [{"label": "StudyForFE.com \u2014 filter by weak topic", "url": "https://www.studyforfe.com", "note": "Best for topic-specific drilling"}, {"label": "PPI2Pass Practice+ \u2014 topic filter", "url": "https://ppi2pass.com", "note": ""}, {"label": "Lindeburg \u2014 relevant chapter for your weak topic", "url": null, "note": "Check chapter index"}],
-          sources: [{"label": "StudyForFE.com \u2014 filter by weak topic", "url": "https://www.studyforfe.com", "note": ""}, {"label": "PPI2Pass Practice+ \u2014 topic filter", "url": "https://ppi2pass.com", "note": ""}, {"label": "Engineer4Free or Chad's Prep \u2014 relevant topic", "url": "https://www.youtube.com/@chads_prep", "note": "Video review if conceptual gap"}]
+          ]
         }
       ]},
       { name: "Thu", type: "rest", tasks: [] },
@@ -2158,9 +2073,7 @@ const WEEKS = [
         { title: "Handbook tab refresh", type: "review", hours: 0.5, problems: 0, desc: "Re-tab or annotate any handbook sections you're still slow to navigate." }
       ]},
       { name: "Sun", type: "rest", tasks: [] },
-    ],
-          sources: [{"label": "StudyForFE.com \u2014 filter by weak topic", "url": "https://www.studyforfe.com", "note": ""}, {"label": "PPI2Pass Practice+ \u2014 topic filter", "url": "https://ppi2pass.com", "note": ""}],
-          sources: [{"label": "StudyForFE.com \u2014 mixed mode", "url": "https://www.studyforfe.com", "note": ""}, {"label": "PPI2Pass Practice+ \u2014 mixed exam", "url": "https://ppi2pass.com", "note": ""}]
+    ]
   },
   {
     id: 25, title: "Full Review — Phases 1, 2 & 3", phase: 3, tag: "mastery",
@@ -2185,11 +2098,7 @@ const WEEKS = [
         { title: "Handbook speed challenge", type: "review", hours: 0.5, problems: 0, desc: "40 formulas, 30 seconds max each. Grade yourself." }
       ]},
       { name: "Sun", type: "rest", tasks: [] },
-    ],
-          sources: [{"label": "StudyForFE.com \u2014 Math + Stats + Econ + Chemistry", "url": "https://www.studyforfe.com", "note": "Quick-fire mixed questions"}, {"label": "Lindeburg \u2014 Chs. 3, 11, 86, 21", "url": null, "note": "Pull 3-4 problems from each chapter"}],
-          sources: [{"label": "StudyForFE.com \u2014 Statics + Dynamics + Electricity", "url": "https://www.studyforfe.com", "note": ""}, {"label": "Lindeburg \u2014 Chs. 41, 55, 33", "url": null, "note": ""}],
-          sources: [{"label": "StudyForFE.com \u2014 Thermodynamics + Fluid Mechanics", "url": "https://www.studyforfe.com", "note": "Steam table drill included"}, {"label": "Lindeburg \u2014 Chs. 24, 26", "url": null, "note": ""}],
-          sources: [{"label": "StudyForFE.com \u2014 Materials + MoM + Controls", "url": "https://www.studyforfe.com", "note": ""}, {"label": "Lindeburg \u2014 Chs. 45, 44, 67", "url": null, "note": ""}]
+    ]
   },
   {
     id: 26, title: "Phase 3 Checkpoint — Third Practice Exam", phase: 3, tag: "mastery",
@@ -2214,11 +2123,7 @@ const WEEKS = [
         { title: "Exam #3 deep review", type: "review", hours: 2.5, problems: 0, desc: "Full error analysis. Compare to Exams 1 and 2. Topics still below 60% need a targeted Phase 4 plan." }
       ]},
       { name: "Sun", type: "rest", tasks: [] },
-    ],
-          sources: [{"label": "StudyForFE.com \u2014 filter by exact sub-topic", "url": "https://www.studyforfe.com", "note": ""}, {"label": "PPI2Pass Practice+ \u2014 narrow topic filter", "url": "https://ppi2pass.com", "note": ""}],
-          sources: [{"label": "Your Anki deck \u2014 full review", "url": null, "note": ""}, {"label": "NCEES Handbook \u2014 all tabs speed review", "url": null, "note": ""}],
-          sources: [{"label": "PPI2Pass Practice+ \u2014 full exam mode", "url": "https://ppi2pass.com", "note": "Use timed full exam"}, {"label": "StudyForFE.com \u2014 full exam mode", "url": "https://www.studyforfe.com", "note": "Alternative"}],
-          sources: [{"label": "PPI2Pass / StudyForFE solutions", "url": "https://ppi2pass.com", "note": "Review every error in detail"}, {"label": "NCEES Handbook \u2014 locate every missed formula", "url": null, "note": ""}]
+    ]
   },
   // ==================== PHASE 4 ====================
   {
@@ -2246,14 +2151,7 @@ const WEEKS = [
       { name: "Sun", type: "study", tasks: [
         { title: "Exam #4 review", type: "review", hours: 2, problems: 0, desc: "Review all errors. Calculate topic-by-topic accuracy. Focus review on anything below 65%." }
       ]},
-    ],
-          sources: [{"label": "PPI2Pass Practice+ \u2014 custom timed set", "url": "https://ppi2pass.com", "note": "30 mixed questions, strict timer"}, {"label": "StudyForFE.com \u2014 mixed timed", "url": "https://www.studyforfe.com", "note": ""}],
-          sources: [{"label": "TI-36X Pro Guidebook (free PDF)", "url": "https://education.ti.com/en/products/calculators/scientific-calculators/ti-36x-pro", "note": "Download from TI website \u2014 solver, stats, conversions"}, {"label": "YouTube: TI-36X Pro for FE exam", "url": "https://www.youtube.com/results?search_query=ti-36x+pro+FE+exam", "note": "Search for FE-specific tutorials"}],
-          sources: [{"label": "PPI2Pass Practice+ \u2014 mixed", "url": "https://ppi2pass.com", "note": ""}, {"label": "StudyForFE.com \u2014 mixed", "url": "https://www.studyforfe.com", "note": ""}],
-          sources: [{"label": "NCEES FE Reference Handbook \u2014 PDF", "url": "https://ncees.org/exams/fe-exam/", "note": "50 formula lookups, 30 sec each"}],
-          sources: [{"label": "StudyForFE.com \u2014 topic filter", "url": "https://www.studyforfe.com", "note": ""}, {"label": "PPI2Pass Practice+ \u2014 topic filter", "url": "https://ppi2pass.com", "note": ""}],
-          sources: [{"label": "PPI2Pass Practice+ \u2014 full exam", "url": "https://ppi2pass.com", "note": ""}, {"label": "StudyForFE.com \u2014 full exam", "url": "https://www.studyforfe.com", "note": ""}],
-          sources: [{"label": "PPI2Pass solutions", "url": "https://ppi2pass.com", "note": "Full error breakdown"}, {"label": "NCEES Handbook \u2014 cross-reference all errors", "url": null, "note": ""}]
+    ]
   },
   {
     id: 28, title: "Intensive Mixed Drilling + Pacing Strategy", phase: 4, tag: "simulation",
@@ -2271,9 +2169,7 @@ const WEEKS = [
           desc: "In Phase 4, Anki should take under 15 minutes. If it's longer, you have too many cards. Aggressively suspend anything you've mastered. Focus on the 20% you keep missing.",
           ankiCards: [
             { q: "Late-stage Anki strategy: what is the goal?", a: "Maintain access to your personal weak spots. Not comprehensive review — targeted fire suppression. 10-15 min/day max." },
-          ],
-          sources: [{"label": "PPI2Pass Practice+ \u2014 timed custom set", "url": "https://ppi2pass.com", "note": "30 questions, 105 minutes"}, {"label": "StudyForFE.com \u2014 timed mode", "url": "https://www.studyforfe.com", "note": ""}],
-          sources: [{"label": "StudyForFE.com \u2014 timed mode", "url": "https://www.studyforfe.com", "note": "Different topic mix from Monday"}, {"label": "PPI2Pass Practice+", "url": "https://ppi2pass.com", "note": ""}]
+          ]
         }
       ]},
       { name: "Thu", type: "rest", tasks: [] },
@@ -2286,9 +2182,7 @@ const WEEKS = [
         { title: "Problem set: hardest question types", type: "practice", hours: 2, problems: 15, desc: "Your personal hardest question types. Put in the extra work here — these are points on the table." }
       ]},
       { name: "Sun", type: "rest", tasks: [] },
-    ],
-          sources: [{"label": "Your wrong-answer notes from Exams 1-4", "url": null, "note": "Review your personal error log"}, {"label": "PPI2Pass / StudyForFE solution history", "url": "https://ppi2pass.com", "note": "Use the platform's analytics if available"}],
-          sources: [{"label": "StudyForFE.com \u2014 targeted topic", "url": "https://www.studyforfe.com", "note": ""}, {"label": "Lindeburg \u2014 relevant chapter", "url": null, "note": "Re-read only the specific sub-section"}]
+    ]
   },
   {
     id: 29, title: "Final Weak Area Blitz", phase: 4, tag: "simulation",
@@ -2313,11 +2207,7 @@ const WEEKS = [
         { title: "Final Anki review + handbook tabs check", type: "anki", hours: 1, problems: 0, desc: "Full deck review. Verify handbook tabs are complete and intuitive." }
       ]},
       { name: "Sun", type: "rest", tasks: [] },
-    ],
-          sources: [{"label": "StudyForFE.com \u2014 topic-specific", "url": "https://www.studyforfe.com", "note": "25 problems, full review"}, {"label": "PPI2Pass Practice+ \u2014 topic filter", "url": "https://ppi2pass.com", "note": ""}, {"label": "Lindeburg \u2014 relevant chapter problems", "url": null, "note": "End-of-chapter practice"}],
-          sources: [{"label": "StudyForFE.com \u2014 topic-specific", "url": "https://www.studyforfe.com", "note": ""}, {"label": "PPI2Pass Practice+ \u2014 topic filter", "url": "https://ppi2pass.com", "note": ""}],
-          sources: [{"label": "PPI2Pass Practice+ \u2014 custom: statics, circuits, thermo, fluids only", "url": "https://ppi2pass.com", "note": "5 problems per topic"}, {"label": "StudyForFE.com \u2014 mixed", "url": "https://www.studyforfe.com", "note": ""}],
-          sources: [{"label": "Pearson VUE: NCEES test center finder", "url": "https://home.pearsonvue.com/ncees", "note": "Confirm location, ID requirements, check-in time"}, {"label": "NCEES: What to bring on exam day", "url": "https://ncees.org/exams/fe-exam/", "note": "Approved calculators list"}]
+    ]
   },
   {
     id: 30, title: "Final Practice + Confidence Building", phase: 4, tag: "simulation",
@@ -2342,11 +2232,7 @@ const WEEKS = [
         { title: "Light mixed set — 10 questions", type: "practice", hours: 0.75, problems: 10, desc: "Easy, confidence-building set. This is not the time for new challenge." }
       ]},
       { name: "Sun", type: "rest", tasks: [] },
-    ],
-          sources: [{"label": "StudyForFE.com \u2014 your best topics", "url": "https://www.studyforfe.com", "note": "Build confidence, not new knowledge"}, {"label": "PPI2Pass Practice+ \u2014 circuits + controls", "url": "https://ppi2pass.com", "note": "Your strongest areas"}],
-          sources: [{"label": "PPI2Pass Practice+ \u2014 timed", "url": "https://ppi2pass.com", "note": "25 questions, 88 minutes"}, {"label": "StudyForFE.com \u2014 timed", "url": "https://www.studyforfe.com", "note": ""}],
-          sources: [{"label": "NCEES FE Reference Handbook \u2014 PDF", "url": "https://ncees.org/exams/fe-exam/", "note": "Scan every tabbed section. Confirm navigation speed."}],
-          sources: [{"label": "StudyForFE.com \u2014 easy/mixed", "url": "https://www.studyforfe.com", "note": "10 questions, no timer. Confidence session."}]
+    ]
   },
   {
     id: 31, title: "Final Rest & Consolidation Week", phase: 4, tag: "simulation",
@@ -2388,9 +2274,7 @@ const WEEKS = [
       ]},
       { name: "Sat", type: "rest", tasks: [] },
       { name: "Sun", type: "rest", tasks: [] },
-    ],
-          sources: [{"label": "Pearson VUE: NCEES candidate handbook", "url": "https://home.pearsonvue.com/ncees", "note": "Confirm exactly what to bring"}, {"label": "NCEES: Approved calculator list", "url": "https://ncees.org/exams/fe-exam/", "note": "Confirm your calculator is on the list"}],
-          sources: [{"label": "NCEES FE Reference Handbook", "url": "https://ncees.org/exams/fe-exam/", "note": "Provided on exam day \u2014 but you've been using it for 32 weeks. You know it."}, {"label": "TI-36X Pro or Casio fx-115ES Plus", "url": null, "note": "Your calculator. Charged and tested."}]
+    ]
   }
 ];
 
@@ -2547,29 +2431,24 @@ function renderDayTask(week, dayIdx, taskIdx, task) {
   const id = getTaskId(week.id, dayIdx, taskIdx);
   const done = !!state.completedTasks[id];
   const ankiId = `anki-${id}`;
-  const srcId = `src-${id}`;
   const hasAnkiCards = task.type === 'anki' && task.ankiCards && task.ankiCards.length > 0;
-  const hasSources = task.sources && task.sources.length > 0;
 
-  const sourcesHtml = hasSources ? `
-    <button class="sources-toggle" onclick="event.stopPropagation();toggleSources('${srcId}')">
-      ▸ where to study
-    </button>
-    <div class="sources-panel" id="${srcId}">
-      <div class="task-sources">
-        ${task.sources.map(s => `
-          <div class="task-source">
-            <div class="task-source-dot"></div>
-            <div>
-              ${s.url
-                ? `<a class="task-source-link" href="${s.url}" target="_blank" rel="noopener">${s.label}</a>`
-                : `<span class="task-source-plain">${s.label}</span>`
-              }
-              ${s.note ? `<span class="task-source-note"> — ${s.note}</span>` : ''}
-            </div>
-          </div>`).join('')}
-      </div>
-    </div>` : '';
+  let ankiHtml = '';
+  if (hasAnkiCards) {
+    const cards = task.ankiCards.map(c =>
+      `<div class="anki-card-example">
+        <div class="anki-card-q">Q: ${c.q}</div>
+        <div class="anki-card-a">A: ${c.a}</div>
+      </div>`
+    ).join('');
+    ankiHtml = `
+      <button class="anki-toggle" onclick="event.stopPropagation();toggleAnkiGuide('${ankiId}')">▸ example cards</button>
+      <div class="anki-guide" id="${ankiId}">
+        <div class="anki-guide-title">Example Anki cards for this session</div>
+        ${cards}
+        <div style="font-size:10px;color:var(--text3);margin-top:6px;font-style:italic">Only card what you got wrong today — not these exactly.</div>
+      </div>`;
+  }
 
   return `
     <div class="day-task ${done ? 'completed' : ''}" onclick="toggleTask('${id}', this)" title="${task.desc}">
@@ -2579,18 +2458,7 @@ function renderDayTask(week, dayIdx, taskIdx, task) {
         ${task.hours > 0 ? `<span>${task.hours}h</span>` : ''}
         ${task.problems > 0 ? `<span>${task.problems}q</span>` : ''}
       </div>
-      ${sourcesHtml}
-      ${hasAnkiCards ? `
-        <button class="anki-toggle" onclick="event.stopPropagation();toggleAnkiGuide('${ankiId}')">▸ example cards</button>
-        <div class="anki-guide" id="${ankiId}">
-          <div class="anki-guide-title">Example Anki cards for this session</div>
-          ${task.ankiCards.map(c => `
-            <div class="anki-card-example">
-              <div class="anki-card-q">Q: ${c.q}</div>
-              <div class="anki-card-a">A: ${c.a}</div>
-            </div>`).join('')}
-          <div style="font-size:10px;color:var(--text3);margin-top:6px;font-style:italic">Only card what you got wrong today — not these exactly.</div>
-        </div>` : ''}
+      ${ankiHtml}
       <div class="task-check">${done ? '✓' : ''}</div>
     </div>`;
 }
