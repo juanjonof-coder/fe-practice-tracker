@@ -568,7 +568,7 @@
   /* Week summary strip */
   .week-summary {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 200px;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 0;
     border-bottom: 1px solid var(--border);
   }
@@ -607,20 +607,7 @@
     font-weight: 300;
   }
 
-  .week-progress-bar {
-    height: 6px;
-    background: var(--border2);
-    border-radius: 3px;
-    overflow: hidden;
-    margin-top: 8px;
-  }
-
-  .week-progress-fill {
-    height: 100%;
-    background: var(--accent);
-    border-radius: 3px;
-    transition: width 0.5s ease;
-  }
+  /* week-progress-bar removed — progress shown in header mini-bar only */
 
   /* Notes section */
   .week-notes {
@@ -2482,32 +2469,29 @@ function renderDay(week, dayIdx, day) {
 function renderWeekSummary(week) {
   const totalHours = week.days.reduce((s, d) => s + d.tasks.reduce((ss, t) => ss + t.hours, 0), 0);
   const totalProblems = week.days.reduce((s, d) => s + d.tasks.reduce((ss, t) => ss + t.problems, 0), 0);
-  const pct = renderWeekProgress(week);
+  const activeDays = week.days.filter(d => d.type !== 'rest').length;
+  const totalTasks = week.days.reduce((s, d) => s + d.tasks.length, 0);
   return `
     <div class="week-summary">
       <div class="summary-cell">
         <div class="summary-label">Hours target</div>
         <div class="summary-value">${week.hoursTarget}</div>
-        <div class="summary-sub">~${Math.round(week.hoursTarget/5.5*10)/10} hrs/study day</div>
+        <div class="summary-sub">~${Math.round(week.hoursTarget/activeDays*10)/10} hrs/study day</div>
       </div>
       <div class="summary-cell">
         <div class="summary-label">Problems target</div>
         <div class="summary-value amber">${week.problemsTarget}</div>
-        <div class="summary-sub">${week.days.filter(d=>d.type!=='rest').length} active days</div>
+        <div class="summary-sub">${activeDays} active days</div>
       </div>
       <div class="summary-cell">
         <div class="summary-label">Scheduled hours</div>
         <div class="summary-value">${totalHours.toFixed(1)}</div>
-        <div class="summary-sub">Across ${week.days.reduce((s,d)=>s+d.tasks.length,0)} tasks</div>
+        <div class="summary-sub">Across ${totalTasks} tasks</div>
       </div>
       <div class="summary-cell">
         <div class="summary-label">Scheduled problems</div>
         <div class="summary-value">${totalProblems}</div>
-      </div>
-      <div class="summary-cell">
-        <div class="summary-label">Week completion</div>
-        <div class="summary-value ${pct === 100 ? 'green' : pct > 50 ? '' : 'red'}">${pct}%</div>
-        <div class="week-progress-bar"><div class="week-progress-fill" style="width:${pct}%"></div></div>
+        <div class="summary-sub">In ${activeDays} sessions</div>
       </div>
     </div>`;
 }
@@ -2670,21 +2654,24 @@ function toggleTask(id, el) {
     el.querySelector('.task-check').style.borderColor = 'var(--border2)';
     el.querySelector('.task-check').style.color = 'transparent';
   }
-  // Update week progress bars without full re-render
+  // Update week progress bar in header without full re-render
   const weekMatch = id.match(/w(\d+)-/);
   if (weekMatch) {
     const weekId = parseInt(weekMatch[1]);
     const week = WEEKS.find(w => w.id === weekId);
     if (week) {
       const pct = renderWeekProgress(week);
+      const phaseColors = { 1: '#5eb8ff', 2: '#7dff8a', 3: '#ffcc4d', 4: '#ff5e5e' };
+      const color = phaseColors[week.phase];
       const card = document.getElementById(`week-${weekId}`);
       if (card) {
         const fill = card.querySelector('.week-progress-mini > div > div');
         const pctEl = card.querySelector('.week-pct');
-        const sumFill = card.querySelector('.week-progress-fill');
         if (fill) fill.style.width = pct + '%';
-        if (pctEl) pctEl.textContent = pct + '%';
-        if (sumFill) sumFill.style.width = pct + '%';
+        if (pctEl) {
+          pctEl.textContent = pct + '%';
+          pctEl.style.color = pct === 100 ? 'var(--accent)' : 'var(--text3)';
+        }
       }
     }
   }
