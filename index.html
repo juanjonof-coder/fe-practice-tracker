@@ -2296,8 +2296,19 @@ const FC_TOPICS = [
   { name: "Control Systems",        weeks: [23, 27] },
 ];
 
+// Week start date: March 16, 2026 = Week 1
+const WEEK_START = new Date('2026-03-16');
+
+function getWeekDates(weekId) {
+  const start = new Date(WEEK_START);
+  start.setDate(start.getDate() + (weekId - 1) * 7);
+  const end = new Date(start);
+  end.setDate(end.getDate() + 6);
+  const fmt = d => `${d.toLocaleString('en', {month:'short'})} ${d.getDate()}`;
+  return `${fmt(start)} – ${fmt(end)}, ${end.getFullYear()}`;
+}
+
 function getTopicHealth(topic) {
-  // Find the highest completed week that covers this topic
   let lastStudiedWeek = null;
   let currentWeek = getCurrentWeek();
 
@@ -2318,17 +2329,19 @@ function getTopicHealth(topic) {
 }
 
 function getCurrentWeek() {
-  // Returns the latest week that has at least one completed task
+  // Only count keys where the task is actually marked true (completed)
   let max = 0;
-  for (const key of Object.keys(state.completedTasks)) {
+  for (const [key, val] of Object.entries(state.completedTasks)) {
+    if (!val) continue;
     const m = key.match(/^w(\d+)-/);
     if (m) max = Math.max(max, parseInt(m[1]));
   }
-  return max || 1;
+  return max;
 }
 
 function isWeekStarted(wid) {
-  return Object.keys(state.completedTasks).some(k => k.startsWith(`w${wid}-`));
+  // A week is "started" only if at least one task is actually completed (true)
+  return Object.entries(state.completedTasks).some(([k, v]) => v && k.startsWith(`w${wid}-`));
 }
 
 function renderForgettingCurve() {
@@ -2500,7 +2513,8 @@ function renderWeekCard(week) {
   const pct = renderWeekProgress(week);
   const phaseColors = { 1: '#5eb8ff', 2: '#7dff8a', 3: '#ffcc4d', 4: '#ff5e5e' };
   const color = phaseColors[week.phase];
-  const isOpen = week.id <= 2; // first 2 open by default
+  const isOpen = week.id <= 2;
+  const dates = getWeekDates(week.id);
 
   let extraClass = '';
   if (week.isMilestone) extraClass = 'milestone-card';
@@ -2521,7 +2535,8 @@ function renderWeekCard(week) {
             <span class="week-tag tag-${week.tag}">${tagLabels[week.tag]}</span>
             ${week.isMilestone ? `<span class="week-tag tag-milestone">⚑ Milestone</span>` : ''}
             ${week.isExamWeek ? `<span class="week-tag tag-exam">★ Exam Week</span>` : ''}
-            <span style="font-size:11px;color:var(--text3);font-family:var(--font-mono)">${week.hoursTarget}h target / ${week.problemsTarget}q target</span>
+            <span style="font-size:11px;color:var(--text3);font-family:var(--font-mono)">${dates}</span>
+            <span style="font-size:11px;color:var(--text3);font-family:var(--font-mono)">${week.hoursTarget}h / ${week.problemsTarget}q</span>
           </div>
         </div>
         <div class="week-progress-mini">
