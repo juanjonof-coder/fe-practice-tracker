@@ -1,0 +1,2202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FE Exam Tracker — Juan Castaneda</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0f0e;
+    --bg2: #141614;
+    --bg3: #1a1d1b;
+    --card: #1e211f;
+    --card2: #232623;
+    --border: #2a2e2b;
+    --border2: #343834;
+    --text: #e8ece9;
+    --text2: #9ba39c;
+    --text3: #626b63;
+    --accent: #7dff8a;
+    --accent2: #5ecc69;
+    --accent3: #2a5c30;
+    --amber: #ffcc4d;
+    --amber2: #b38a2a;
+    --red: #ff5e5e;
+    --red2: #7a2a2a;
+    --blue: #5eb8ff;
+    --blue2: #2a5a7a;
+    --purple: #b87dff;
+    --purple2: #4a2a7a;
+    --radius: 10px;
+    --radius-lg: 16px;
+    --font-display: 'Syne', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+    --font-body: 'DM Sans', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  /* ===== HEADER ===== */
+  header {
+    border-bottom: 1px solid var(--border);
+    background: var(--bg2);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .header-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    height: 64px;
+  }
+
+  .logo {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--accent);
+    letter-spacing: -0.5px;
+    white-space: nowrap;
+  }
+
+  .logo span { color: var(--text3); font-weight: 400; font-size: 14px; margin-left: 6px; }
+
+  .header-stats {
+    display: flex;
+    gap: 24px;
+    margin-left: auto;
+    align-items: center;
+  }
+
+  .hstat {
+    text-align: right;
+  }
+
+  .hstat-val {
+    font-family: var(--font-mono);
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .hstat-val.green { color: var(--accent); }
+  .hstat-val.amber { color: var(--amber); }
+
+  .hstat-label {
+    font-size: 10px;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+
+  .header-progress-bar {
+    width: 120px;
+    height: 4px;
+    background: var(--border2);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .header-progress-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 2px;
+    transition: width 0.5s ease;
+  }
+
+  /* ===== LAYOUT ===== */
+  .layout {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 32px 24px;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+
+  /* ===== SIDEBAR ===== */
+  .sidebar {
+    position: sticky;
+    top: 88px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .sidebar-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .sidebar-title {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 14px 16px 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .phase-nav {
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .phase-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    border: none;
+    background: none;
+    color: var(--text2);
+    font-family: var(--font-body);
+    font-size: 13px;
+    text-align: left;
+    transition: all 0.15s;
+    width: 100%;
+  }
+
+  .phase-btn:hover { background: var(--card2); color: var(--text); }
+  .phase-btn.active { background: var(--accent3); color: var(--accent); }
+
+  .phase-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--text3); flex-shrink: 0;
+  }
+  .phase-btn.active .phase-dot { background: var(--accent); }
+  .phase-btn:nth-child(2) .phase-dot { background: var(--blue); }
+  .phase-btn:nth-child(3) .phase-dot { background: var(--amber); }
+  .phase-btn:nth-child(4) .phase-dot { background: var(--red); }
+
+  .phase-week-range {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text3);
+    margin-left: auto;
+  }
+
+  .week-nav {
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    max-height: 320px;
+    overflow-y: auto;
+  }
+
+  .week-nav::-webkit-scrollbar { width: 4px; }
+  .week-nav::-webkit-scrollbar-track { background: transparent; }
+  .week-nav::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+  .week-nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: none;
+    background: none;
+    color: var(--text3);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    transition: all 0.12s;
+    width: 100%;
+    text-align: left;
+  }
+
+  .week-nav-btn:hover { background: var(--card2); color: var(--text2); }
+  .week-nav-btn.active { color: var(--accent); background: var(--accent3); }
+  .week-nav-btn.milestone { color: var(--amber); }
+  .week-nav-btn.completed { color: var(--text3); }
+  .week-nav-btn.completed::after { content: '✓'; margin-left: auto; font-size: 10px; color: var(--accent); }
+
+  .week-topic-preview {
+    font-size: 10px;
+    color: var(--text3);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 140px;
+    font-family: var(--font-body);
+    font-weight: 300;
+  }
+
+  /* Overall progress widget */
+  .overall-stats {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .stat-row {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .stat-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .stat-name {
+    font-size: 12px;
+    color: var(--text2);
+  }
+
+  .stat-val {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text);
+  }
+
+  .mini-bar {
+    height: 3px;
+    background: var(--border2);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .mini-bar-fill {
+    height: 100%;
+    border-radius: 2px;
+  }
+
+  /* ===== MAIN CONTENT ===== */
+  .main {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  /* ===== WEEK CARD ===== */
+  .week-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: border-color 0.2s;
+    scroll-margin-top: 96px;
+  }
+
+  .week-card:hover { border-color: var(--border2); }
+  .week-card.milestone-card { border-color: var(--amber2); }
+  .week-card.exam-week-card { border-color: #5e3a3a; }
+
+  .week-header {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    cursor: pointer;
+    padding: 0;
+    position: relative;
+  }
+
+  .week-num-badge {
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text3);
+    padding: 20px 20px;
+    border-right: 1px solid var(--border);
+    min-width: 80px;
+    text-align: center;
+    background: var(--card2);
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    line-height: 1.2;
+  }
+
+  .week-num-badge .wk-label {
+    font-size: 9px;
+    font-family: var(--font-mono);
+    font-weight: 400;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .week-card.milestone-card .week-num-badge { color: var(--amber); background: #1a1700; }
+  .week-card.exam-week-card .week-num-badge { color: var(--red); background: #1a0f0f; }
+
+  .week-header-info {
+    flex: 1;
+    padding: 16px 20px;
+  }
+
+  .week-title {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .week-meta {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .week-tag {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .tag-foundation { background: #1a2a4a; color: var(--blue); }
+  .tag-core { background: #0d2a1a; color: #5ecc69; }
+  .tag-mastery { background: #2a1f00; color: var(--amber); }
+  .tag-simulation { background: #2a0d0d; color: var(--red); }
+  .tag-milestone { background: #2a1f00; color: var(--amber); border: 1px solid var(--amber2); }
+  .tag-exam { background: #2a0d0d; color: var(--red); border: 1px solid #5e3a3a; }
+
+  .week-hours-badge {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text3);
+    margin-left: auto;
+    padding-right: 8px;
+    white-space: nowrap;
+  }
+
+  .week-progress-mini {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+    padding-right: 16px;
+  }
+
+  .week-pct {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text3);
+    min-width: 32px;
+    text-align: right;
+  }
+
+  .expand-icon {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px;
+    color: var(--text3);
+    transition: all 0.2s;
+    margin-right: 16px;
+    flex-shrink: 0;
+  }
+
+  .week-card.open .expand-icon { transform: rotate(180deg); background: var(--accent3); color: var(--accent); }
+
+  /* ===== WEEK BODY ===== */
+  .week-body {
+    display: none;
+    border-top: 1px solid var(--border);
+  }
+
+  .week-card.open .week-body { display: block; }
+
+  /* Daily schedule */
+  .days-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .day-col {
+    border-right: 1px solid var(--border);
+    padding: 0;
+  }
+
+  .day-col:last-child { border-right: none; }
+
+  .day-header {
+    padding: 10px 12px;
+    background: var(--card2);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .day-name {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--text3);
+  }
+
+  .day-date {
+    font-size: 11px;
+    color: var(--text3);
+    font-weight: 300;
+  }
+
+  .day-col.study-day .day-name { color: var(--accent); }
+  .day-col.rest-day .day-name { color: var(--text3); }
+  .day-col.light-day .day-name { color: var(--amber); }
+
+  .day-body {
+    padding: 12px;
+    min-height: 140px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .day-task {
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 10px;
+    position: relative;
+    cursor: pointer;
+    transition: border-color 0.15s;
+  }
+
+  .day-task:hover { border-color: var(--border2); }
+
+  .day-task.completed {
+    border-color: var(--accent3);
+    background: #0d1a0f;
+  }
+
+  .day-task.completed .task-title { color: var(--text3); text-decoration: line-through; }
+
+  .task-title {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 3px;
+    line-height: 1.4;
+  }
+
+  .task-meta {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text3);
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .task-type {
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+
+  .type-study { background: #0d2a1a; color: #5ecc69; }
+  .type-practice { background: #1a1a2a; color: var(--purple); }
+  .type-review { background: #2a1a00; color: var(--amber); }
+  .type-exam { background: #2a0d0d; color: var(--red); }
+  .type-rest { background: var(--bg3); color: var(--text3); }
+  .type-anki { background: #1a2a4a; color: var(--blue); }
+
+  .task-check {
+    position: absolute;
+    top: 8px; right: 8px;
+    width: 16px; height: 16px;
+    border-radius: 4px;
+    border: 1px solid var(--border2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px;
+    color: transparent;
+    background: var(--bg3);
+    transition: all 0.15s;
+  }
+
+  .day-task.completed .task-check {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #0d0f0e;
+  }
+
+  .rest-day-placeholder {
+    color: var(--text3);
+    font-size: 11px;
+    font-style: italic;
+    font-family: var(--font-body);
+    font-weight: 300;
+    text-align: center;
+    padding: 20px 0;
+    opacity: 0.6;
+  }
+
+  /* Week summary strip */
+  .week-summary {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 200px;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .summary-cell {
+    padding: 14px 18px;
+    border-right: 1px solid var(--border);
+  }
+
+  .summary-cell:last-child { border-right: none; }
+
+  .summary-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--text3);
+    margin-bottom: 4px;
+  }
+
+  .summary-value {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .summary-value.green { color: var(--accent); }
+  .summary-value.amber { color: var(--amber); }
+  .summary-value.red { color: var(--red); }
+
+  .summary-sub {
+    font-size: 10px;
+    color: var(--text3);
+    margin-top: 2px;
+    font-weight: 300;
+  }
+
+  .week-progress-bar {
+    height: 6px;
+    background: var(--border2);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-top: 8px;
+  }
+
+  .week-progress-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 3px;
+    transition: width 0.5s ease;
+  }
+
+  /* Notes section */
+  .week-notes {
+    padding: 16px 20px;
+  }
+
+  .notes-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--text3);
+    margin-bottom: 8px;
+  }
+
+  .notes-textarea {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 10px 12px;
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 1.6;
+    resize: vertical;
+    min-height: 64px;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+
+  .notes-textarea:focus { border-color: var(--accent3); }
+  .notes-textarea::placeholder { color: var(--text3); }
+
+  /* Milestone callout */
+  .milestone-callout {
+    margin: 0;
+    padding: 14px 20px;
+    background: #1a1500;
+    border-bottom: 1px solid var(--amber2);
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .milestone-callout.exam-callout { background: #150a0a; border-color: #5e3a3a; }
+
+  .callout-icon {
+    font-size: 18px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .callout-text {
+    font-size: 13px;
+    color: var(--amber);
+    line-height: 1.6;
+  }
+
+  .exam-callout .callout-text { color: var(--red); }
+
+  .callout-text strong { font-weight: 500; }
+
+  /* ===== TOPIC REFERENCE PANEL ===== */
+  .topic-ref {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin-bottom: 4px;
+  }
+
+  .topic-ref-header {
+    padding: 14px 18px;
+    background: var(--card2);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+  }
+
+  .topic-ref-title {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .topic-coverage-bar {
+    flex: 1;
+    height: 4px;
+    background: var(--border2);
+    border-radius: 2px;
+    overflow: hidden;
+    max-width: 100px;
+  }
+
+  .topic-coverage-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 2px;
+  }
+
+  .topic-pct {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text3);
+  }
+
+  /* ===== SCORE TRACKER ===== */
+  .score-tracker {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .score-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .score-label {
+    font-size: 12px;
+    color: var(--text2);
+    min-width: 70px;
+  }
+
+  .score-input {
+    width: 60px;
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    border-radius: 6px;
+    padding: 4px 8px;
+    color: var(--text);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    outline: none;
+    text-align: center;
+    transition: border-color 0.15s;
+  }
+
+  .score-input:focus { border-color: var(--accent3); }
+
+  .score-bar-wrap {
+    flex: 1;
+    height: 4px;
+    background: var(--border2);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .score-bar-fill {
+    height: 100%;
+    border-radius: 2px;
+    background: var(--accent);
+    transition: width 0.4s ease;
+  }
+
+  .score-target {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text3);
+    white-space: nowrap;
+  }
+
+  .score-status {
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+  }
+
+  .status-pass { background: var(--accent3); color: var(--accent); }
+  .status-close { background: #2a1f00; color: var(--amber); }
+  .status-below { background: var(--red2); color: var(--red); }
+  .status-pending { background: var(--border); color: var(--text3); }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 1100px) {
+    .layout { grid-template-columns: 240px 1fr; }
+  }
+
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+    .sidebar { position: static; }
+    .days-grid { grid-template-columns: repeat(4, 1fr); }
+    .week-summary { grid-template-columns: 1fr 1fr 1fr; }
+    .header-stats { gap: 12px; }
+  }
+
+  @media (max-width: 600px) {
+    .layout { padding: 16px; }
+    .days-grid { grid-template-columns: 1fr 1fr; }
+    .week-summary { grid-template-columns: 1fr 1fr; }
+    .header-inner { padding: 0 16px; }
+  }
+
+  /* ===== MISC ===== */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding: 0 2px;
+  }
+
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text3);
+  }
+
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .phase-section { margin-bottom: 8px; }
+
+  .phase-heading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    cursor: pointer;
+  }
+
+  .phase-heading-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .phase-heading-title {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .phase-heading-desc {
+    font-size: 12px;
+    color: var(--text3);
+    font-weight: 300;
+  }
+
+  .phase-heading-weeks {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text3);
+    margin-left: auto;
+  }
+
+  .phase-weeks { display: flex; flex-direction: column; gap: 12px; }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--card2);
+    border: 1px solid var(--accent3);
+    border-radius: var(--radius);
+    padding: 10px 16px;
+    font-size: 13px;
+    color: var(--accent);
+    font-family: var(--font-mono);
+    z-index: 9999;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: all 0.2s;
+    pointer-events: none;
+  }
+  .toast.show { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">FE Tracker <span>Other Disciplines — Juan Castaneda</span></div>
+    <div class="header-stats">
+      <div class="hstat">
+        <div class="hstat-val green" id="h-completed">0</div>
+        <div class="hstat-label">Tasks done</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-val amber" id="h-hours">0</div>
+        <div class="hstat-label">Hrs logged</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-val" id="h-problems">0</div>
+        <div class="hstat-label">Problems done</div>
+      </div>
+      <div>
+        <div class="hstat-label" style="text-align:right;margin-bottom:4px;">Overall progress</div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div class="header-progress-bar">
+            <div class="header-progress-fill" id="h-progress" style="width:0%"></div>
+          </div>
+          <div class="hstat-val" id="h-pct" style="font-size:13px;">0%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-title">Phases</div>
+      <div class="phase-nav">
+        <button class="phase-btn active" onclick="jumpToPhase(1)">
+          <span class="phase-dot"></span>
+          Phase 1 — Foundation
+          <span class="phase-week-range">Wk 1-8</span>
+        </button>
+        <button class="phase-btn" onclick="jumpToPhase(2)">
+          <span class="phase-dot"></span>
+          Phase 2 — Core tech
+          <span class="phase-week-range">Wk 9-18</span>
+        </button>
+        <button class="phase-btn" onclick="jumpToPhase(3)">
+          <span class="phase-dot"></span>
+          Phase 3 — Mastery
+          <span class="phase-week-range">Wk 19-26</span>
+        </button>
+        <button class="phase-btn" onclick="jumpToPhase(4)">
+          <span class="phase-dot"></span>
+          Phase 4 — Simulation
+          <span class="phase-week-range">Wk 27-32</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-title">Jump to week</div>
+      <div class="week-nav" id="week-nav"></div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-title">Overall stats</div>
+      <div class="overall-stats">
+        <div class="stat-row">
+          <div class="stat-top">
+            <span class="stat-name">Tasks completed</span>
+            <span class="stat-val" id="s-tasks">0 / 0</span>
+          </div>
+          <div class="mini-bar"><div class="mini-bar-fill" id="s-tasks-bar" style="width:0%;background:var(--accent)"></div></div>
+        </div>
+        <div class="stat-row">
+          <div class="stat-top">
+            <span class="stat-name">Study hours</span>
+            <span class="stat-val" id="s-hours">0 / 0</span>
+          </div>
+          <div class="mini-bar"><div class="mini-bar-fill" id="s-hours-bar" style="width:0%;background:var(--blue)"></div></div>
+        </div>
+        <div class="stat-row">
+          <div class="stat-top">
+            <span class="stat-name">Problems solved</span>
+            <span class="stat-val" id="s-probs">0 / 1400</span>
+          </div>
+          <div class="mini-bar"><div class="mini-bar-fill" id="s-probs-bar" style="width:0%;background:var(--amber)"></div></div>
+        </div>
+        <div class="stat-row">
+          <div class="stat-top">
+            <span class="stat-name">Practice exams</span>
+            <span class="stat-val" id="s-exams">0 / 5</span>
+          </div>
+          <div class="mini-bar"><div class="mini-bar-fill" id="s-exams-bar" style="width:0%;background:var(--red)"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-title">Practice exam scores</div>
+      <div class="score-tracker" id="score-tracker"></div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main" id="main-content"></main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// =====================================================
+// DATA — 32 weeks of FE Other Disciplines schedule
+// =====================================================
+
+const PHASES = [
+  { id: 1, label: "Foundation", color: "#5eb8ff", weeks: [1,8], desc: "Math, stats, econ, ethics, chemistry — build the base and learn the handbook" },
+  { id: 2, label: "Core Technical", color: "#7dff8a", weeks: [9,18], desc: "Statics, dynamics, circuits, thermodynamics, fluids — high-weight engineering topics" },
+  { id: 3, label: "Mastery & Gaps", color: "#ffcc4d", weeks: [19,26], desc: "Materials, mechanics, controls, instrumentation — targeted reinforcement and first full exams" },
+  { id: 4, label: "Exam Simulation", color: "#ff5e5e", weeks: [27,32], desc: "Full timed practice exams, weak-area blitz, exam day preparation" },
+];
+
+// Each week has: title, phase, tag, isMilestone, isExamWeek, milestoneText, hours target, problems target, days[]
+// Each day: name, type (study/rest/light), tasks[]
+// Each task: title, type, hours, problems, description
+
+const WEEKS = [
+  // ==================== PHASE 1 ====================
+  {
+    id: 1, title: "Handbook Orientation + Algebra & Calculus", phase: 1, tag: "foundation",
+    hoursTarget: 10, problemsTarget: 20,
+    summary: "Get familiar with the NCEES reference handbook. Tab every section. Lay algebra, calculus and vector foundations.",
+    days: [
+      { name: "Mon", type: "study", tasks: [
+        { title: "Download & tab NCEES handbook", type: "study", hours: 1.5, problems: 0, desc: "Print or use PDF. Create tabs for every major section. This is your most important reference — know it cold." },
+        { title: "Anki deck setup + algebra review", type: "anki", hours: 1, problems: 0, desc: "Install Anki. Create your FE deck. Add first 15 cards: key identities, trig relationships, logs." }
+      ]},
+      { name: "Tue", type: "rest", tasks: [] },
+      { name: "Wed", type: "study", tasks: [
+        { title: "Differential & integral calculus", type: "study", hours: 1.5, problems: 8, desc: "Chain rule, product rule, u-substitution, definite integrals. All formulas exist in handbook — practice finding them." },
+        { title: "Calculus practice problems", type: "practice", hours: 1, problems: 10, desc: "10 handbook-sourced calculus problems. Time each one." }
+      ]},
+      { name: "Thu", type: "rest", tasks: [] },
+      { name: "Fri", type: "study", tasks: [
+        { title: "Vectors & coordinate systems", type: "study", hours: 1.5, problems: 8, desc: "Dot product, cross product, coordinate transforms. Verify every formula against handbook location." },
+      ]},
+      { name: "Sat", type: "study", tasks: [
+        { title: "Matrices + linear algebra fundamentals", type: "study", hours: 1.5, problems: 10, desc: "Matrix operations, determinants, eigenvalues. Focus on what the handbook covers vs what you need to compute." },
+        { title: "Handbook navigation drill", type: "review", hours: 0.5, problems: 0, desc: "Timed drill: can you find 20 specific formulas in under 30 seconds each?" }
+      ]},
+      { name: "Sun", type: "rest", tasks: [] },
+    ]
+  },
+  {
+    id: 2, title: "Differential Equations & Numerical Methods", phase: 1, tag: "foundation",
+    hoursTarget: 10, problemsTarget: 25,
+    summary: "ODEs, Laplace transforms, and numerical methods. These appear across thermodynamics, dynamics, and controls topics.",
+    days: [
+      { name: "Mon", type: "study", tasks: [
+        { title: "1st and 2nd order ODEs", type: "study", hours: 1.5, problems: 8, desc: "Separation of variables, integrating factors, characteristic equations. Heavy use of handbook." },
+        { title: "Anki — math & DE concepts", type: "anki", hours: 0.5, problems: 0, desc: "Add 15 new cards. Review yesterday's deck (15 min max)." }
+      ]},
+      { name: "Tue", type: "rest", tasks: [] },
+      { name: "Wed", type: "study", tasks: [
+        { title: "Laplace transforms", type: "study", hours: 1.5, problems: 8, desc: "Forward and inverse transforms. The table in the handbook is your friend — every common pair is there." },
+        { title: "Laplace practice set", type: "practice", hours: 1, problems: 10, desc: "10 transform problems. Mix forward and inverse. Track time per problem." }
+      ]},
+      { name: "Thu", type: "rest", tasks: [] },
+      { name: "Fri", type: "study", tasks: [
+        { title: "Numerical methods", type: "study", hours: 1.5, problems: 8, desc: "Newton-Raphson, Simpson's rule, Euler method. These show up as 1-2 questions but are straightforward with handbook." }
+      ]},
+      { name: "Sat", type: "study", tasks: [
+        { title: "Week 1-2 cumulative review", type: "review", hours: 1.5, problems: 15, desc: "Mixed problem set from weeks 1-2 topics. Review all errors. Add error patterns to Anki." },
+        { title: "Anki daily review", type: "anki", hours: 0.5, problems: 0, desc: "Review all due cards. Target: under 20 min." }
+      ]},
+      { name: "Sun", type: "rest", tasks: [] },
+    ]
+  },
+  {
+    id: 3, title: "Probability & Statistics", phase: 1, tag: "foundation",
+    hoursTarget: 11, problemsTarget: 30,
+    summary: "One of the higher-weighted topics in the Other Disciplines exam. Distributions, hypothesis testing, regression, reliability.",
+    days: [
+      { name: "Mon", type: "study", tasks: [
+        { title: "Probability fundamentals + combinatorics", type: "study", hours: 1.5, problems: 8, desc: "Conditional probability, Bayes theorem, permutations, combinations." },
+        { title: "Anki — stats formulas", type: "anki", hours: 0.5, problems: 0, desc: "Add distribution parameters, mean/variance formulas for each distribution." }
+      ]},
+      { name: "Tue", type: "rest", tasks: [] },
+      { name: "Wed", type: "study", tasks: [
+        { title: "Normal, binomial & Poisson distributions", type: "study", hours: 1.5, problems: 10, desc: "Focus on identifying which distribution applies and using handbook tables. Z-table navigation is critical." },
+        { title: "Distribution practice set", type: "practice", hours: 1, problems: 12, desc: "12 problems mixing distributions. Identify, locate handbook, compute." }
+      ]},
+      { name: "Thu", type: "rest", tasks: [] },
+      { name: "Fri", type: "study", tasks: [
+        { title: "Hypothesis testing & confidence intervals", type: "study", hours: 1.5, problems: 8, desc: "T-tests, chi-square. Understand the conceptual framing since exam questions are often conceptual." }
+      ]},
+      { name: "Sat", type: "study", tasks: [
+        { title: "Regression, reliability & curve fitting", type: "study", hours: 1.5, problems: 10, desc: "Linear regression (slope, intercept, R²). Reliability: MTBF, failure rate, series/parallel systems." },
+        { title: "Calculator: stat functions drill", type: "review", hours: 0.5, problems: 0, desc: "TI-36X Pro or Casio: practice statistical calculations. Know 1-var stats, regression from calculator." }
+      ]},
+      { name: "Sun", type: "rest", tasks: [] },
+    ]
+  },
+  {
+    id: 4, title: "Engineering Economics", phase: 1, tag: "foundation",
+    hoursTarget: 10, problemsTarget: 30,
+    summary: "High ROI topic. Relatively easy to master fully. Time value of money, NPV, IRR, depreciation, break-even.",
+    days: [
+      { name: "Mon", type: "study", tasks: [
+        { title: "Time value of money fundamentals", type: "study", hours: 1.5, problems: 8, desc: "PV, FV, annuities, gradients. All formulas and factor tables are in the handbook — learn to use the tables." },
+        { title: "Anki — economics factors", type: "anki", hours: 0.5, problems: 0, desc: "Add P/F, F/P, A/P, P/A and gradient factor definitions." }
+      ]},
+      { name: "Tue", type: "rest", tasks: [] },
+      { name: "Wed", type: "study", tasks: [
+        { title: "NPV, IRR, and B/C ratio", type: "study", hours: 1.5, problems: 10, desc: "Investment decision rules. Practice identifying which method is being asked for." },
+        { title: "Economics practice set A", type: "practice", hours: 1, problems: 12, desc: "12 TVM and investment decision problems. Use handbook tables for all factor lookups." }
+      ]},
+      { name: "Thu", type: "rest", tasks: [] },
+      { name: "Fri", type: "study", tasks: [
+        { title: "Depreciation methods", type: "study", hours: 1, problems: 8, desc: "Straight-line, MACRS, DDB. Most exam questions give you the method — just apply correctly." },
+        { title: "Break-even and cost analysis", type: "study", hours: 0.75, problems: 6, desc: "Break-even quantity, cost-volume-profit. Straightforward formulas." }
+      ]},
+      { name: "Sat", type: "study", tasks: [
+        { title: "Economics practice set B", type: "practice", hours: 1.5, problems: 15, desc: "Mixed economics problems including taxes, inflation, comparison methods." },
+        { title: "Anki review", type: "anki", hours: 0.5, problems: 0, desc: "All due cards. Target 85%+ accuracy on econ deck before moving on." }
+      ]},
+      { name: "Sun", type: "rest", tasks: [] },
+    ]
+  },
+  {
+    id: 5, title: "Ethics & Professional Practice", phase: 1, tag: "foundation",
+    hoursTarget: 4, problemsTarget: 20,
+    summary: "⚠️ Maximum 4 hours total — do not over-invest. Read NSPE code once, then practice questions only. 3-5% of exam.",
+    days: [
+      { name: "Mon", type: "study", tasks: [
+        { title: "NSPE Code of Ethics — full read", type: "study", hours: 1, problems: 0, desc: "Read the full NSPE code once. Focus on the Fundamental Canons. Do NOT re-read or memorize — just absorb the framework." },
+        { title: "Ethics Anki cards", type: "anki", hours: 0.5, problems: 0, desc: "Add 10 cards on key concepts: conflicts of interest, confidentiality, public safety priority." }
+      ]},
+      { name: "Tue", type: "rest", tasks: [] },
+      { name: "Wed", type: "study", tasks: [
+        { title: "Ethics practice questions x20", type: "practice", hours: 1.5, problems: 20, desc: "Pure question practice. Ethics questions are scenario-based. Rule: when in doubt, public safety > client interest > personal interest." }
+      ]},
+      { name: "Thu", type: "rest", tasks: [] },
+      { name: "Fri", type: "light", tasks: [
+        { title: "Chemistry: atomic structure & stoichiometry", type: "study", hours: 1.5, problems: 8, desc: "Start chemistry early. Balancing equations, molar mass, limiting reagent. All covered in handbook." }
+      ]},
+      { name: "Sat", type: "study", tasks: [
+        { title: "Chemistry: thermochemistry & equilibrium", type: "study", hours: 1.5, problems: 10, desc: "Enthalpy, Gibbs free energy, Le Chatelier's principle, equilibrium constants." }
+      ]},
+      { name: "Sun", type: "rest", tasks: [] },
+    ]
+  },
+  {
+    id: 6, title: "Chemistry Continued + Weeks 1-5 Review", phase: 1, tag: "foundation",
+    hoursTarget: 11, problemsTarget: 35,
+    summary: "Complete chemistry coverage (electrochemistry, kinetics) then do a thorough cumulative review of all Phase 1 topics so far.",
+    days: [
+      { name: "Mon", type: "study", tasks: [
+        { title: "Electrochemistry & kinetics", type: "study", hours: 1.5, problems: 8, desc: "Oxidation/reduction, electrochemical cells, reaction rates. Nernst equation is in the handbook." },
+        { title: "Chemistry practice set", type: "practice", hours: 1, problems: 10, desc: "Mixed chemistry problems. Focus on stoichiometry and electrochemistry since these appear most." }
+      ]},
+      { name: "Tue", type: "rest", tasks: [] },
+      { name: "Wed", type: "study", tasks: [
+        { title: "Weeks 1-3 cumulative review", type: "review", hours: 2, problems: 20, desc: "Math, probability, statistics. Mixed problem set. Every error gets a root cause note." },
+        { title: "Anki — all decks review", type: "anki", hours: 0.5, problems: 0, desc: "Review all due cards across all decks. Add any new weak spots." }
+      ]},
+      { name: "Thu", type: "rest", tasks: [] },
+      { name: "Fri", type: "study", tasks: [
+        { title: "Weeks 4-5 cumulative review", type: "review", hours: 2, problems: 15, desc: "Economics, ethics, chemistry. Focus on missed question types." }
+      ]},
+      { name: "Sat", type: "study", tasks: [
+        { title: "Handbook speed drill", type: "review", hours: 1, problems: 0, desc: "Timed drill: 30 formulas, 30 seconds each. Track which sections you're slow on." },
+        { title: "Calculator practice", type: "review", hours: 0.5, problems: 0, desc: "Solver mode, stat functions, unit conversions. Must be fluid by exam day." }
+      ]},
+      { name: "Sun", type: "rest", tasks: [] },
+    ]
+  },
+  {
+    id: 7, title: "Engineering Sciences (Supplemental)", phase: 1, tag: "foundation",
+    hoursTarget: 10, problemsTarget: 30,
+    summary: "Work, energy, power at the physics level. Wave properties, optics, nuclear concepts. These appear in the 'Engineering Sciences' section (2-4%).",
+    days: [
+      { name: "Mon", type: "study", tasks: [
+        { title: "Work, energy, power (classical mechanics)", type: "study", hours: 1.5, problems: 8, desc: "Kinetic/potential energy, conservation laws. Bridge topic — connects to dynamics in Phase 2." }
+      ]},
+      { name: "Tue", type: "rest", tasks: [] },
+      { name: "Wed", type: "study", tasks: [
+        { title: "Wave phenomena, optics & acoustics", type: "study", hours: 1.5, problems: 8, desc: "Wave equations, Doppler effect, interference. Primarily conceptual questions on exam." },
+        { title: "Practice set — engineering sciences", type: "practice", hours: 1, problems: 12, desc: "12 problems from this section. Straightforward with handbook open." }
+      ]},
+      { name: "Thu", type: "rest", tasks: [] },
+      { name: "Fri", type: "study", tasks: [
+        { title: "Nuclear physics basics + atomic structure", type: "study", hours: 1, problems: 6, desc: "Radioactive decay, half-life, nuclear reactions. Rarely more than 2-3 questions on exam." },
+        { title: "Anki — engineering sciences", type: "anki", hours: 0.5, problems: 0, desc: "Add key equations and conceptual relationships." }
+      ]},
+      { name: "Sat", type: "study", tasks: [
+        { title: "Mixed Phase 1 review", type: "review", hours: 2, problems: 20, desc: "Pull 20 random problems from weeks 1-7. Simulate exam-like timed conditions (3.5 min/problem)." }
+      ]},
+      { name: "Sun", type: "rest", tasks: [] },
+    ]
+  },
+  {
+    id: 8, title: "Phase 1 Diagnostic Checkpoint", phase: 1, tag: "foundation",
+    hoursTarget: 10, problemsTarget: 35,
+    isMilestone: true,
+    milestoneText: "End-of-Phase 1 diagnostic: Take a 55-question timed practice set covering all Phase 1 topics. Target: 60%+. Identify your 3 weakest areas and adjust Phase 2 time allocation accordingly.",
+    summary: "Consolidate Phase 1 learning. Take the diagnostic exam. Identify and prioritize weak spots before Phase 2.",
+    days: [
+      { name: "Mon", type: "study", tasks: [
+        { title: "Final Phase 1 topic sweep", type: "review", hours: 2, problems: 15, desc: "Quick review of all Phase 1 topics: math, stats, econ, ethics, chemistry, engineering sciences. Identify anything still unclear." }
+      ]},
+      { name: "Tue", type: "rest", tasks: [] },
+      { name: "Wed", type: "study", tasks: [
+        { title: "PHASE 1 DIAGNOSTIC — 55 questions timed", type: "exam", hours: 3.5, problems: 55, desc: "3.5 hours, timed, closed notes except handbook. Treat like the real exam. Note: 55 questions × 3.5 min/q = 192 min." }
+      ]},
+      { name: "Thu", type: "rest", tasks: [] },
+      { name: "Fri", type: "study", tasks: [
+        { title: "Diagnostic review & error analysis", type: "review", hours: 2, problems: 0, desc: "Review every wrong answer. Categorize errors by type and topic. Write down your 3 lowest-performing areas." }
+      ]},
+      { name: "Sat", type: "study", tasks: [
+        { title: "Weak area targeting", type: "review", hours: 1.5, problems: 20, desc: "Based on diagnostic results: drill your 3 weakest topic areas. Add new Anki cards for patterns you're missing." },
+        { title: "Plan Phase 2 adjustments", type: "review", hours: 0.5, problems: 0, desc: "Review Phase 2 schedule. Allocate extra time to weak areas within each week's topics." }
+      ]},
+      { name: "Sun", type: "rest", tasks: [] },
+    ]
+  },
+  // ==================== PHASE 2 ====================
+  {
+    id: 9, title: "Statics — Part 1: Forces, Equilibrium & FBDs", phase: 2, tag: "core",
+    hoursTarget: 11, problemsTarget: 40,
+    summary: "Start statics strong. Free body diagrams are the foundation for nearly every problem. Master FBDs before anything else.",
+    days: [
+      { name: "Mon", type: "study", tasks: [
+        { title: "Force systems: 2D resultants", type: "study", hours: 1.5, problems: 10, desc: "Vector addition, component method, moments. Draw FBD for every problem from day 1 — no shortcuts." },
+        { title: "Anki — statics concepts", type: "anki", hours: 0.5, problems: 0, desc: "Add equilibrium conditions, moment arm definition, couple concept." }
+      ]},
+      { name: "Tue", type: "rest", tasks: [] },
+      { name: "Wed", type: "study", tasks: [
+        { title: "2D equilibrium of rigid bodies", type: "study", hours: 1.5, problems: 12, desc: "ΣFx=0, ΣFy=0, ΣM=0. Apply to beams, brackets, L-frames. Watch Engineer4Free statics series for visual reinforcement." },
+        { title: "FBD practice set", type: "practice", hours: 1, problems: 12, desc: "12 equilibrium problems. Draw FBD before every calculation." }
+      ]},
+      { name: "Thu", type: "rest", tasks: [] },
+      { name: "Fri", type: "study", tasks: [
+        { title: "Trusses — method of joints", type: "study", hours: 1.5, problems: 10, desc: "Identify zero-force members first. Work joint by joint. This is a high-frequency exam question type." }
+      ]},
+      { name: "Sat", type: "study", tasks: [
+        { title: "Trusses — method of sections", type: "study", hours: 1, problems: 10, desc: "Cut the truss, isolate a section, apply equilibrium. Faster for finding specific member forces." },
+        { title: "3D force systems intro", type: "study", hours: 1, problems: 6, desc: "Unit vectors, 3D moments. Less common on exam but worth basic coverage." }
+      ]},
+      { name: "Sun", type: "rest", tasks: [] },
+    ]
+  },
+  {
+    id: 10, title: "Statics — Part 2: Centroids, MoI, Friction", phase: 2, tag: "core",
+    hoursTarget: 11, problemsTarget: 45,
+    summary: "Complete statics coverage. Centroids and moments of inertia feed into mechanics of materials later. Friction is often overlooked.",
+    days: [
+      { name: "Mon", type: "study", tasks: [
+        { title: "Centroids of lines, areas & volumes", type: "study", hours: 1.5, problems: 10, desc: "Composite body method. Handbook has tables of centroid locations for common shapes — use them." },
+        { title: "Anki — centroid & MoI formulas", type: "anki", hours: 0.5, problems: 0, desc: "Add parallel axis theorem, handbook shape references." }
+      ]},
+      { name: "Tue", type: "rest", tasks: [] },
+      { name: "Wed", type: "study", tasks: [
+        { title: "Moments of inertia + parallel axis theorem", type: "study", hours: 1.5, problems: 12, desc: "I for rectangles, circles, triangles. Composite sections using PAT. Practice spotting which axis is being asked about." },
+        { title: "MoI practice set", type: "practice", hours: 1, problems: 12, desc: "12 MoI problems. Especially composite cross-sections." }
+      ]},
+      { name: "Thu", type: "rest", tasks: [] },
+      { name: "Fri", type: "study", tasks: [
+        { title: "Friction: dry, belt, wedge", type: "study", hours: 1.5, problems: 10, desc: "Static vs kinetic friction, friction angle, wedge analysis. Often 1-2 questions on exam." }
+      ]},
+      { name: "Sat", type: "study", tasks: [
+        { title: "Full statics review + problem set", type: "review", hours: 2, problems: 20, desc: "Mixed statics problems from weeks 9-10. Target 80%+ before moving to dynamics." },
+        { title: "Anki review", type: "anki", hours: 0.5, problems: 0, desc: "All due cards." }
+      ]},
+      { name: "Sun", type: "rest", tasks: [] },
+    ]
+  },
+  {
+    id: 11, title: "Dynamics — Kinematics", phase: 2, tag: "core",
+    hoursTarget: 11, problemsTarget: 45,
+    summary: "Kinematics: how things move without caring about why. Particle motion in 1D, 2D, projectile, curvilinear, and relative motion.",
+    days: [
+      { name: "Mon", type: "study", tasks: [
+        { title: "Rectilinear particle kinematics", type: "study", hours: 1.5, problems: 10, desc: "Position, velocity, acceleration relationships. Integration and differentiation. The 3 fundamental equations for constant acceleration." },
+        { title: "Anki — kinematics equations", type: "anki", hours: 0.5, problems: 0, desc: "Add the four kinematic equations, definitions of each variable." }
+      ]},
+      { name: "Tue", type: "rest", tasks: [] },
+      { name: "Wed", type: "study", tasks: [
+        { title: "Projectile motion & 2D kinematics", type: "study", hours: 1.5, problems: 12, desc: "x and y independence is the key concept. Practice decomposing into components." },
+        { title: "Curvilinear motion: n-t coordinates", type: "study", hours: 0.75, problems: 8, desc: "Normal and tangential acceleration. Circular motion as a special case." }
+      ]},
+      { name: "Thu", type: "rest", tasks: [] },
+      { name: "Fri", type: "study", tasks: [
+        { title: "Rigid body kinematics — rotation", type: "study", hours: 1.5, problems: 10, desc: "Angular velocity, angular acceleration, relative motion between points on a rigid body." }
+      ]},
+      { name: "Sat", type: "study", tasks: [
+        { title: "Kinematics mixed practice set", type: "practice", hours: 2, problems: 20, desc: "20 kinematics problems mixing all types. Track which problem types take longest." },
+        { title: "Anki review", type: "anki", hours: 0.5, problems: 0, desc: "All due cards." }
+      ]},
+      { name: "Sun", type: "rest", tasks: [] },
+    ]
+  },
+  {
+    id: 12, title: "Dynamics — Kinetics & Vibrations", phase: 2, tag: "core",
+    hoursTarget: 11, problemsTarget: 45,
+    summary: "Kinetics: forces causing motion. Work-energy, impulse-momentum, and introductory vibrations analysis.",
+    days: [
+      { name: "Mon", type: "study", tasks: [
+        { title: "Newton's second law — particle kinetics", type: "study", hours: 1.5, problems: 10, desc: "F=ma applied to particle motion. Draw FBD, write equations of motion." }
+      ]},
+      { name: "Tue", type: "rest", tasks: [] },
+      { name: "Wed", type: "study", tasks: [
+        { title: "Work-energy theorem + conservation of energy", type: "study", hours: 1.5, problems: 12, desc: "Kinetic energy, potential energy, work done by non-conservative forces. Conservation when only conservative forces act." },
+        { title: "Practice set: work-energy", type: "practice", hours: 1, problems: 12, desc: "12 work-energy problems. Identify conservative vs non-conservative forces first." }
+      ]},
+      { name: "Thu", type: "rest", tasks: [] },
+      { name: "Fri", type: "study", tasks: [
+        { title: "Impulse-momentum + impact/collisions", type: "study", hours: 1.5, problems: 10, desc: "Linear and angular momentum, coefficient of restitution, elastic vs inelastic collisions." }
+      ]},
+      { name: "Sat", type: "study", tasks: [
+        { title: "Vibrations: free undamped & damped", type: "study", hours: 1.5, problems: 10, desc: "Natural frequency, damping ratio, damped natural frequency. Know the standard SDOF equations." },
+        { title: "Anki + dynamics review", type: "anki", hours: 0.5, problems: 0, desc: "Add natural frequency formula, damping ratio definition." }
+      ]},
+      { name: "Sun", type: "rest", tasks: [] },
+    ]
+  },
+  {
+    id: 13, title: "Electricity & Magnetism — DC Circuits", phase: 2, tag: "core",
+    hoursTarget: 10, problemsTarget: 50,
+    summary: "Your home territory. DC circuits, KVL, KCL, Thevenin/Norton, power. Push for 90%+ accuracy. Freed-up time goes to weaker topics.",
+    days: [
+      { name: "Mon", type: "study", tasks: [
+        { title: "DC circuits: KVL, KCL, nodal analysis", type: "study", hours: 1, problems: 12, desc: "Should be familiar ground. Focus on exam framing — they give numerical values and ask for one specific quantity." }
+      ]},
+      { name: "Tue", type: "rest", tasks: [] },
+      { name: "Wed", type: "study", tasks: [
+        { title: "Thevenin & Norton equivalent circuits", type: "study", hours: 1, problems: 12, desc: "Vth, Rth, IN. Practice systematic method: zero independent sources, find Rth. Verify V=IR." },
+        { title: "DC circuits practice set", type: "practice", hours: 1.5, problems: 18, desc: "18 DC circuit problems. Vary complexity. Track accuracy." }
+      ]},
+      { name: "Thu", type: "rest", tasks: [] },
+      { name: "Fri", type: "study", tasks: [
+        { title: "Transient circuits: RC, RL, RLC", type: "study", hours: 1.5, problems: 12, desc: "Time constants, natural and step response. These are ODE applications — link to your week 2 work." }
+      ]},
+      { name: "Sat", type: "study", tasks: [
+        { title: "Magnetic fields & Faraday's law", type: "study", hours: 1.5, problems: 10, desc: "Flux, induction, Faraday, Lenz. Transformer basics. Know where these formulas live in the handbook." },
+        { title: "Anki review", type: "anki", hours: 0.5, problems: 0, desc: "All due cards. Add any new circuit theorems." }
+      ]},
+      { name: "Sun", type: "rest", tasks: [] },
+    ]
+  },
+  {
+    id: 14, title: "Electricity & Magnetism — AC Circuits & Power", phase: 2, tag: "core",
+    hoursTarget: 10, problemsTarget: 50,
+    summary: "AC phasors, impedance, power factor, three-phase systems. High-yield area given your background. Target 90%+ accuracy.",
+    days: [
+      { name: "Mon", type: "study", tasks: [
+        { title: "AC phasor analysis & impedance", type: "study", hours: 1, problems: 12, desc: "Complex impedance, phasor diagrams, series/parallel AC circuits. Use handbook phasor tables." }
+      ]},
+      { name: "Tue", type: "rest", tasks: [] },
+      { name: "Wed", type: "study", tasks: [
+        { title: "AC power: real, reactive, apparent", type: "study", hours: 1, problems: 12, desc: "P, Q, S, power factor, power factor correction. The power triangle. These are very high-yield." },
+        { title: "AC power practice set", type: "practice", hours: 1.5, problems: 18, desc: "18 AC power problems. Mix of single-phase problems." }
+      ]},
+      { name: "Thu", type: "rest", tasks: [] },
+      { name: "Fri", type: "study", tasks: [
+        { title: "Three-phase circuits & power", type: "study", hours: 1.5, problems: 10, desc: "Y and Δ connections, balanced three-phase power. Know how to convert between them." }
+      ]},
+      { name: "Sat", type: "study", tasks: [
+        { title: "Semiconductors & electronic devices basics", type: "study", hours: 1, problems: 8, desc: "Diodes, BJTs conceptually. Exam rarely goes deep here but know the basics." },
+        { title: "Full E&M review", type: "review", hours: 1.5, problems: 15, desc: "Mixed E&M problem set. Target: 90%+ accuracy. Note any remaining gaps." }
+      ]},
+      { name: "Sun", type: "rest", tasks: [] },
+    ]
+  },
+  {
+    id: 15, title: "Thermodynamics — Part 1: Laws & Properties", phase: 2, tag: "core",
+    hoursTarget: 11, problemsTarget: 50,
+    summary: "First and second laws. Properties of pure substances. Steam table navigation is critical — practice locating values rapidly.",
+    days: [
+      { name: "Mon", type: "study", tasks: [
+        { title: "First law of thermodynamics — closed systems", type: "study", hours: 1.5, problems: 10, desc: "Energy balance Q - W = ΔU. Boundary work, heat transfer. Sign conventions matter — be consistent." },
+        { title: "Anki — thermodynamics", type: "anki", hours: 0.5, problems: 0, desc: "Add first law statement, specific heat definitions, enthalpy definition." }
+      ]},
+      { name: "Tue", type: "rest", tasks: [] },
+      { name: "Wed", type: "study", tasks: [
+        { title: "First law — open systems (control volumes)", type: "study", hours: 1.5, problems: 10, desc: "Steady-state energy balance for turbines, pumps, compressors, nozzles, heat exchangers." },
+        { title: "Fluid properties & steam tables", type: "study", hours: 1, problems: 8, desc: "Quality, saturation, superheated steam. Practice navigating handbook steam tables until it is automatic." }
+      ]},
+      { name: "Thu", type: "rest", tasks: [] },
+      { name: "Fri", type: "study", tasks: [
+        { title: "Second law: entropy & irreversibility", type: "study", hours: 1.5, problems: 10, desc: "Entropy change, isentropic processes, Clausius inequality. Conceptual questions are common." }
+      ]},
+      { name: "Sat", type: "study", tasks: [
+        { title: "Ideal gas law & gas mixtures", type: "study", hours: 1, problems: 10, desc: "PV=nRT, Dalton's law, mixture properties. Straightforward with handbook." },
+        { title: "Thermo practice set A", type: "practice", hours: 1.5, problems: 15, desc: "Mixed thermo problems. Time each problem. Practice steam table lookups." }
+      ]},
+      { name: "Sun", type: "rest", tasks: [] },
+    ]
+  },
+  {
+    id: 16, title: "Thermodynamics — Part 2: Power Cycles", phase: 2, tag: "core",
+    hoursTarget: 11, problemsTarget: 50,
+    summary: "Rankine, Brayton, and Carnot cycles. Heat transfer basics. Refrigeration. These produce multi-part exam questions.",
+    days: [
+      { name: "Mon", type: "study", tasks: [
+        { title: "Carnot cycle & thermal efficiency", type: "study", hours: 1, problems: 8, desc: "Maximum efficiency, Carnot as benchmark. Know η = 1 - TL/TH cold." }
+      ]},
+      { name: "Tue", type: "rest", tasks: [] },
+      { name: "Wed", type: "study", tasks: [
+        { title: "Rankine cycle (steam power plant)", type: "study", hours: 1.5, problems: 12, desc: "4 states, turbine work, pump work, heat input/rejection. Heavy use of steam tables. Common multi-step exam question." },
+        { title: "Brayton cycle (gas turbine)", type: "study", hours: 1, problems: 10, desc: "Compressor, combustion chamber, turbine, back-work ratio. Use ideal gas relations." }
+      ]},
+      { name: "Thu", type: "rest", tasks: [] },
+      { name: "Fri", type: "study", tasks: [
+        { title: "Refrigeration & heat pump cycles", type: "study", hours: 1, problems: 8, desc: "COP for refrigeration and heat pump. Reversed Rankine cycle concept." },
+        { title: "Heat transfer: conduction", type: "study", hours: 1, problems: 8, desc: "Fourier's law, thermal resistance concept, composite walls, cylinders. In the handbook." }
+      ]},
+      { name: "Sat", type: "study", tasks: [
+        { title: "Heat transfer: convection & radiation", type: "study", hours: 1, problems: 8, desc: "Newton's law of cooling, Stefan-Boltzmann law. Conceptual questions are common." },
+        { title: "Full thermodynamics review", type: "review", hours: 1.5, problems: 15, desc: "Mixed thermo problem set. Focus on cycles and steam table problems." }
+      ]},
+      { name: "Sun", type: "rest", tasks: [] },
+    ]
+  },
+  {
+    id: 17, title: "Fluid Mechanics — Part 1: Fundamentals", phase: 2, tag: "core",
+    hoursTarget: 11, problemsTarget: 50,
+    summary: "Fluid properties, hydrostatics, Bernoulli, and continuity. Chad's Prep YouTube fluid mechanics series is recommended here.",
+    days: [
+      { name: "Mon", type: "study", tasks: [
+        { title: "Fluid properties + hydrostatics", type: "study", hours: 1.5, problems: 10, desc: "Viscosity, density, pressure variation with depth, manometry, buoyancy. Handbook has all formulas." },
+        { title: "Anki — fluid mechanics", type: "anki", hours: 0.5, problems: 0, desc: "Add definitions: viscosity types, Reynolds number formula, Bernoulli terms." }
+      ]},
+      { name: "Tue", type: "rest", tasks: [] },
+      { name: "Wed", type: "study", tasks: [
+        { title: "Continuity equation + Bernoulli", type: "study", hours: 1.5, problems: 12, desc: "Mass conservation, energy conservation. Bernoulli between two points. Apply systematically: identify points, list known/unknown." },
+        { title: "Bernoulli practice set", type: "practice", hours: 1, problems: 12, desc: "12 Bernoulli problems varying in complexity. Include Venturi meter, orifice, nozzle types." }
+      ]},
+      { name: "Thu", type: "rest", tasks: [] },
+      { name: "Fri", type: "study", tasks: [
+        { title: "Reynolds number & flow regimes", type: "study", hours: 1, problems: 8, desc: "Laminar vs turbulent, Re formula, entrance length. Know the Re thresholds." },
+        { title: "Dimensional analysis & similitude", type: "study", hours: 1, problems: 6, desc: "Pi groups, Buckingham Pi theorem. Less common but 1-2 questions possible." }
+      ]},
+      { name: "Sat", type: "study", tasks: [
+        { title: "Fluids mixed practice", type: "practice", hours: 2, problems: 20, desc: "Mixed problem set. Time each problem. Note which sub-areas need more work." }
+      ]},
+      { name: "Sun", type: "rest", tasks: [] },
+    ]
+  },
+  {
+    id: 18, title: "Fluid Mechanics — Part 2: Pipe Flow & First Full Exam", phase: 2, tag: "core",
+    hoursTarget: 13, problemsTarget: 55,
+    isMilestone: true,
+    milestoneText: "FIRST FULL NCEES PRACTICE EXAM this week (110 questions, 6 hours timed). Target score: 55-65%. Review every wrong answer with handbook open. Identify your 3 lowest topic areas for Phase 3 focus.",
+    summary: "Complete fluid mechanics, then take your first full-length timed practice exam. This is a critical progress checkpoint.",
+    days: [
+      { name: "Mon", type: "study", tasks: [
+        { title: "Pipe flow: head loss & Darcy-Weisbach", type: "study", hours: 1.5, problems: 10, desc: "Major and minor losses, friction factor, Moody diagram. Handbook has the Moody chart — practice reading it." }
+      ]},
+      { name: "Tue", type: "rest", tasks: [] },
+      { name: "Wed", type: "study", tasks: [
+        { title: "Pumps, turbines & pump curves", type: "study", hours: 1.5, problems: 10, desc: "Pump work, efficiency, system curve, operating point. Affinity laws for variable speed." },
+        { title: "Open channel flow basics", type: "study", hours: 1, problems: 8, desc: "Manning equation, hydraulic radius. Less common but know the Manning formula location." }
+      ]},
+      { name: "Thu", type: "rest", tasks: [] },
+      { name: "Fri", type: "study", tasks: [
+        { title: "Pre-exam review: scan all topics", type: "review", hours: 2, problems: 0, desc: "Quick scan of handbook tabs. Review your Anki deck fully. No new learning — consolidate." }
+      ]},
+      { name: "Sat", type: "exam", tasks: [
+        { title: "FULL PRACTICE EXAM #1 — 110 questions, 6 hours", type: "exam", hours: 6, problems: 110, desc: "Timed. Handbook allowed. Calculator only (no notes). Simulate real exam conditions. Take breaks as you would on exam day." }
+      ]},
+      { name: "Sun", type: "study", tasks: [
+        { title: "Exam #1 review & error analysis", type: "review", hours: 3, problems: 0, desc: "Review every wrong answer. Categorize errors. Identify your 3 lowest-performing topic areas. Plan Phase 3 adjustments." }
+      ]},
+    ]
+  },
+  // ==================== PHASE 3 ====================
+  {
+    id: 19, title: "Materials Science — Part 1: Properties & Bonding", phase: 3, tag: "mastery",
+    hoursTarget: 11, problemsTarget: 55,
+    summary: "Materials science is likely furthest from your background. Give it full attention. Stress-strain curves, crystal structure, bonding.",
+    days: [
+      { name: "Mon", type: "study", tasks: [
+        { title: "Atomic bonding & crystal structure", type: "study", hours: 1.5, problems: 8, desc: "Ionic, covalent, metallic bonding. FCC, BCC, HCP. Atomic packing factor. Mostly conceptual exam questions." },
+        { title: "Anki — materials science", type: "anki", hours: 0.5, problems: 0, desc: "Add bonding types, crystal structures, atomic packing factors." }
+      ]},
+      { name: "Tue", type: "rest", tasks: [] },
+      { name: "Wed", type: "study", tasks: [
+        { title: "Stress-strain curves + mechanical properties", type: "study", hours: 1.5, problems: 12, desc: "Elastic modulus, yield strength, UTS, ductility, toughness. Read a stress-strain curve fluently." },
+        { title: "Practice: reading stress-strain curves", type: "practice", hours: 1, problems: 10, desc: "10 problems requiring interpretation of stress-strain graphs. Very common exam question format." }
+      ]},
+      { name: "Thu", type: "rest", tasks: [] },
+      { name: "Fri", type: "study", tasks: [
+        { title: "Elastic & plastic deformation mechanisms", type: "study", hours: 1.5, problems: 10, desc: "Slip, dislocations, cold working, grain size effects on strength. Strengthening mechanisms." }
+      ]},
+      { name: "Sat", type: "study", tasks: [
+        { title: "Thermal properties of materials", type: "study", hours: 1, problems: 8, desc: "Thermal expansion, thermal conductivity, specific heat. Link to heat transfer from thermodynamics." },
+        { title: "Materials practice set A", type: "practice", hours: 1.5, problems: 12, desc: "Mixed materials problems. Focus on stress-strain and thermal properties." }
+      ]},
+      { name: "Sun", type: "rest", tasks: [] },
+    ]
+  },
+  {
+    id: 20, title: "Materials Science — Part 2: Phase Diagrams & Failure", phase: 3, tag: "mastery",
+    hoursTarget: 11, problemsTarget: 55,
+    summary: "Phase diagrams (lever rule), corrosion, fatigue, fracture. These generate specific multi-step exam questions.",
+    days: [
+      { name: "Mon", type: "study", tasks: [
+        { title: "Binary phase diagrams + lever rule", type: "study", hours: 1.5, problems: 10, desc: "Liquidus, solidus, eutectic point. Lever rule for composition and phase fractions. Iron-carbon diagram basics." }
+      ]},
+      { name: "Tue", type: "rest", tasks: [] },
+      { name: "Wed", type: "study", tasks: [
+        { title: "Corrosion: types, mechanisms, prevention", type: "study", hours: 1.5, problems: 10, desc: "Galvanic, crevice, pitting, stress corrosion. Galvanic series. Prevention methods." },
+        { title: "Corrosion practice set", type: "practice", hours: 1, problems: 12, desc: "12 corrosion problems. Mostly conceptual identification questions." }
+      ]},
+      { name: "Thu", type: "rest", tasks: [] },
+      { name: "Fri", type: "study", tasks: [
+        { title: "Fatigue: S-N curves, endurance limit", type: "study", hours: 1, problems: 8, desc: "Cyclic loading, stress amplitude, mean stress effects. S-N curve interpretation." },
+        { title: "Fracture mechanics basics", type: "study", hours: 1, problems: 6, desc: "Brittle vs ductile fracture, Charpy impact test, fracture toughness concept." }
+      ]},
+      { name: "Sat", type: "study", tasks: [
+        { title: "Full materials science review", type: "review", hours: 2, problems: 15, desc: "Mixed materials problem set. Focus on phase diagrams and failure modes." },
+        { title: "Anki review", type: "anki", hours: 0.5, problems: 0, desc: "All due cards." }
+      ]},
+      { name: "Sun", type: "rest", tasks: [] },
+    ]
+  },
+  {
+    id: 21, title: "Mechanics of Materials", phase: 3, tag: "mastery",
+    hoursTarget: 11, problemsTarget: 55,
+    summary: "Stress and strain in structural members. Builds on statics. Bending stress, shear stress, deflection, columns.",
+    days: [
+      { name: "Mon", type: "study", tasks: [
+        { title: "Axial and shear stress/strain", type: "study", hours: 1.5, problems: 10, desc: "Normal stress σ = F/A, shear stress τ = V/A (average), strain ε = δ/L, Hooke's law. Basic but forms foundation." },
+        { title: "Anki — mechanics of materials", type: "anki", hours: 0.5, problems: 0, desc: "Add Hooke's law forms, Poisson's ratio, modulus of rigidity." }
+      ]},
+      { name: "Tue", type: "rest", tasks: [] },
+      { name: "Wed", type: "study", tasks: [
+        { title: "Bending stress in beams", type: "study", hours: 1.5, problems: 12, desc: "σ = Mc/I. Shear and moment diagrams — draw them. Neutral axis, section modulus. Very high-yield." },
+        { title: "Bending stress practice set", type: "practice", hours: 1, problems: 12, desc: "12 bending stress problems including composite beams and unsymmetric loading." }
+      ]},
+      { name: "Thu", type: "rest", tasks: [] },
+      { name: "Fri", type: "study", tasks: [
+        { title: "Torsion in circular shafts", type: "study", hours: 1.5, problems: 10, desc: "τ = Tc/J, angle of twist φ = TL/GJ. Solid and hollow circular cross-sections." }
+      ]},
+      { name: "Sat", type: "study", tasks: [
+        { title: "Beam deflection & column buckling", type: "study", hours: 1.5, problems: 10, desc: "Double integration, superposition (handbook has deflection tables). Euler buckling formula — know end conditions." },
+        { title: "Combined loading + Mohr's circle intro", type: "study", hours: 1, problems: 8, desc: "Superpose normal and shear stresses. Mohr's circle as a visual tool for principal stresses." }
+      ]},
+      { name: "Sun", type: "rest", tasks: [] },
+    ]
+  },
+  {
+    id: 22, title: "Instrumentation & Measurement + Second Practice Exam", phase: 3, tag: "mastery",
+    hoursTarget: 12, problemsTarget: 55,
+    isMilestone: true,
+    milestoneText: "SECOND FULL PRACTICE EXAM this week (110 questions, 6 hours). Target: 65-70%. Compare against Exam #1 score. Topics with less than 60% accuracy get targeted drilling in weeks 23-24.",
+    summary: "Your comfort zone — instrumentation, sensors, measurement systems. Nail these as near-free points, then second full practice exam.",
+    days: [
+      { name: "Mon", type: "study", tasks: [
+        { title: "Sensor types & characteristics", type: "study", hours: 1.5, problems: 10, desc: "RTDs, thermocouples, pressure transducers, flow meters. Accuracy, precision, resolution, span, zero drift. Your daily work." }
+      ]},
+      { name: "Tue", type: "rest", tasks: [] },
+      { name: "Wed", type: "study", tasks: [
+        { title: "Signal conditioning & data acquisition", type: "study", hours: 1.5, problems: 10, desc: "Amplifiers, ADC, sampling theory, Nyquist criterion. Know signal-to-noise concepts." },
+        { title: "Instrumentation practice set", type: "practice", hours: 1, problems: 15, desc: "15 instrumentation and measurement problems. This should feel natural — push for 90%." }
+      ]},
+      { name: "Thu", type: "rest", tasks: [] },
+      { name: "Fri", type: "study", tasks: [
+        { title: "Pre-exam review: full handbook scan", type: "review", hours: 2, problems: 0, desc: "Scan all tabs. Anki full review. Identify and briefly reinforce any lingering weak areas." }
+      ]},
+      { name: "Sat", type: "exam", tasks: [
+        { title: "FULL PRACTICE EXAM #2 — 110 questions, 6 hours", type: "exam", hours: 6, problems: 110, desc: "Full exam conditions. Timed. Handbook and approved calculator only. Note energy levels — practice pacing." }
+      ]},
+      { name: "Sun", type: "study", tasks: [
+        { title: "Exam #2 review & gap identification", type: "review", hours: 2, problems: 0, desc: "Compare to Exam #1. Which topics improved? Which didn't? Plan targeted drilling for weeks 23-24." }
+      ]},
+    ]
+  },
+  {
+    id: 23, title: "Control Systems Theory", phase: 3, tag: "mastery",
+    hoursTarget: 11, problemsTarget: 55,
+    summary: "Transfer functions, block diagrams, PID control, Bode plots, stability. Your electrical and SCADA background is a major advantage here.",
+    days: [
+      { name: "Mon", type: "study", tasks: [
+        { title: "Transfer functions & block diagram algebra", type: "study", hours: 1.5, problems: 10, desc: "Laplace domain TF, series, parallel, feedback configurations. Simplification rules. Link to your week 2 Laplace work." }
+      ]},
+      { name: "Tue", type: "rest", tasks: [] },
+      { name: "Wed", type: "study", tasks: [
+        { title: "PID control: P, I, D effects & tuning", type: "study", hours: 1.5, problems: 12, desc: "Effect of each term on response. Steady-state error, overshoot, settling time tradeoffs. Common exam question." },
+        { title: "Controls practice set", type: "practice", hours: 1, problems: 15, desc: "15 controls problems. Mix of block diagram reduction and PID effect questions." }
+      ]},
+      { name: "Thu", type: "rest", tasks: [] },
+      { name: "Fri", type: "study", tasks: [
+        { title: "Bode plots & frequency response", type: "study", hours: 1.5, problems: 10, desc: "Gain margin, phase margin, stability assessment. Reading and interpreting Bode plots." }
+      ]},
+      { name: "Sat", type: "study", tasks: [
+        { title: "Root locus & system stability", type: "study", hours: 1, problems: 10, desc: "Routh-Hurwitz stability criterion. Root locus sketching rules. BIBO stability concept." },
+        { title: "Controls full review", type: "review", hours: 1.5, problems: 12, desc: "Mixed controls problems. Target 85%+ accuracy — this is your territory." }
+      ]},
+      { name: "Sun", type: "rest", tasks: [] },
+    ]
+  },
+  {
+    id: 24, title: "Targeted Weak Area Reinforcement", phase: 3, tag: "mastery",
+    hoursTarget: 11, problemsTarget: 60,
+    summary: "This week is personalized. Based on practice exam results, drill your lowest-performing topics. Template shown — adjust to your actual gaps.",
+    days: [
+      { name: "Mon", type: "study", tasks: [
+        { title: "Weak area #1 — targeted drilling", type: "practice", hours: 2, problems: 20, desc: "Identify your lowest-scoring Phase 1 or Phase 2 topic from practice exams. Do 20 problems on that topic only. Review every wrong answer." }
+      ]},
+      { name: "Tue", type: "rest", tasks: [] },
+      { name: "Wed", type: "study", tasks: [
+        { title: "Weak area #2 — targeted drilling", type: "practice", hours: 2, problems: 20, desc: "Your second lowest-performing topic. Same approach: 20 problems, full review." },
+        { title: "Anki — update weak area cards", type: "anki", hours: 0.5, problems: 0, desc: "Add new cards for patterns you keep missing." }
+      ]},
+      { name: "Thu", type: "rest", tasks: [] },
+      { name: "Fri", type: "study", tasks: [
+        { title: "Weak area #3 — targeted drilling", type: "practice", hours: 2, problems: 20, desc: "Third lowest area. Use PPI2Pass or StudyForFE for topic-specific question sets." }
+      ]},
+      { name: "Sat", type: "study", tasks: [
+        { title: "Mixed problem set — all Phase 3 topics", type: "review", hours: 2, problems: 20, desc: "Pull 20 problems randomly from materials, mechanics, instrumentation, controls. Exam-like conditions." },
+        { title: "Handbook tab refresh", type: "review", hours: 0.5, problems: 0, desc: "Re-tab or annotate any handbook sections you're still slow to navigate." }
+      ]},
+      { name: "Sun", type: "rest", tasks: [] },
+    ]
+  },
+  {
+    id: 25, title: "Full Review — Phases 1, 2 & 3", phase: 3, tag: "mastery",
+    hoursTarget: 11, problemsTarget: 60,
+    summary: "Comprehensive sweep of all covered topics. Emphasis on spaced repetition — revisit material from earlier phases before it fades.",
+    days: [
+      { name: "Mon", type: "study", tasks: [
+        { title: "Phase 1 sweep: math, stats, econ, chem", type: "review", hours: 2, problems: 15, desc: "Quick-fire 15 problems from Phase 1 topics. Check: can you still do these cold?" }
+      ]},
+      { name: "Tue", type: "rest", tasks: [] },
+      { name: "Wed", type: "study", tasks: [
+        { title: "Phase 2 sweep: statics, dynamics, circuits", type: "review", hours: 2, problems: 15, desc: "15 problems from Phase 2 high-weight topics. Statics + circuits especially." },
+        { title: "Phase 2 sweep: thermo, fluids", type: "review", hours: 1, problems: 10, desc: "10 problems. Steam table access drill included." }
+      ]},
+      { name: "Thu", type: "rest", tasks: [] },
+      { name: "Fri", type: "study", tasks: [
+        { title: "Phase 3 sweep: materials, mechanics, controls", type: "review", hours: 2, problems: 15, desc: "15 problems from Phase 3 topics. Focus on topics that were weak in practice exams." }
+      ]},
+      { name: "Sat", type: "study", tasks: [
+        { title: "Full Anki deck review", type: "anki", hours: 1, problems: 0, desc: "Review all due cards across all decks. This should take 45-60 minutes if you've been consistent." },
+        { title: "Handbook speed challenge", type: "review", hours: 0.5, problems: 0, desc: "40 formulas, 30 seconds max each. Grade yourself." }
+      ]},
+      { name: "Sun", type: "rest", tasks: [] },
+    ]
+  },
+  {
+    id: 26, title: "Phase 3 Checkpoint — Third Practice Exam", phase: 3, tag: "mastery",
+    isMilestone: true,
+    milestoneText: "THIRD FULL PRACTICE EXAM (110 questions, 6 hours). Target: 70-75%. If below 65%, extend Phase 3 by 2 weeks and push exam date. If above 75%, consider scheduling early.",
+    hoursTarget: 13, problemsTarget: 60,
+    summary: "Third full-length practice exam. This score determines whether you're on track for Phase 4 or need extended reinforcement.",
+    days: [
+      { name: "Mon", type: "study", tasks: [
+        { title: "Final gap drills — specific problem types", type: "review", hours: 2, problems: 20, desc: "Focus on the exact question types you keep getting wrong. Not topics broadly — specific sub-types." }
+      ]},
+      { name: "Tue", type: "rest", tasks: [] },
+      { name: "Wed", type: "study", tasks: [
+        { title: "Pre-exam consolidation", type: "review", hours: 1.5, problems: 0, desc: "Anki full review. Handbook tabs. Mental rehearsal of exam day strategy: skip, flag, return." }
+      ]},
+      { name: "Thu", type: "rest", tasks: [] },
+      { name: "Fri", type: "exam", tasks: [
+        { title: "FULL PRACTICE EXAM #3 — 110 questions, 6 hours", type: "exam", hours: 6, problems: 110, desc: "Full simulation. Note which questions you flagged and had to return to. Track your pacing." }
+      ]},
+      { name: "Sat", type: "study", tasks: [
+        { title: "Exam #3 deep review", type: "review", hours: 2.5, problems: 0, desc: "Full error analysis. Compare to Exams 1 and 2. Topics still below 60% need a targeted Phase 4 plan." }
+      ]},
+      { name: "Sun", type: "rest", tasks: [] },
+    ]
+  },
+  // ==================== PHASE 4 ====================
+  {
+    id: 27, title: "Simulation Mode Begins — Exam 4 + Calculator Mastery", phase: 4, tag: "simulation",
+    hoursTarget: 12, problemsTarget: 65,
+    summary: "Shift fully into exam simulation mode. Mixed problem sets under timed conditions. Calculator drill — every function must be fluent.",
+    days: [
+      { name: "Mon", type: "study", tasks: [
+        { title: "Mixed timed problem set — 30 questions", type: "practice", hours: 2.5, problems: 30, desc: "30 mixed questions in 105 minutes (3.5 min/q). Strict time limit. Flag uncertain answers, move on." }
+      ]},
+      { name: "Tue", type: "rest", tasks: [] },
+      { name: "Wed", type: "study", tasks: [
+        { title: "Calculator deep dive: TI-36X Pro", type: "review", hours: 2, problems: 0, desc: "Master: equation solver, numerical integration, statistics (1-var, 2-var), unit conversions. Time yourself on 10 common operations." },
+        { title: "Mixed problem set — 20 questions", type: "practice", hours: 1.5, problems: 20, desc: "Another timed mixed set. Focus on clean, efficient solution process." }
+      ]},
+      { name: "Thu", type: "rest", tasks: [] },
+      { name: "Fri", type: "study", tasks: [
+        { title: "Handbook navigation speed test", type: "review", hours: 1, problems: 0, desc: "50 formula lookups, 30 seconds each. Benchmark your current navigation speed." },
+        { title: "Targeted weak area practice", type: "practice", hours: 1.5, problems: 15, desc: "Based on Exam #3 results: drill your two lowest topic areas with 15 targeted problems each." }
+      ]},
+      { name: "Sat", type: "exam", tasks: [
+        { title: "FULL PRACTICE EXAM #4 — 110 questions, 6 hours", type: "exam", hours: 6, problems: 110, desc: "Full simulation with strict exam conditions. Use the same physical setup you will use on real exam day." }
+      ]},
+      { name: "Sun", type: "study", tasks: [
+        { title: "Exam #4 review", type: "review", hours: 2, problems: 0, desc: "Review all errors. Calculate topic-by-topic accuracy. Focus review on anything below 65%." }
+      ]},
+    ]
+  },
+  {
+    id: 28, title: "Intensive Mixed Drilling + Pacing Strategy", phase: 4, tag: "simulation",
+    hoursTarget: 12, problemsTarget: 70,
+    summary: "Pure problem volume at exam speed. Develop your personal pacing and skip strategy. No new topics — execution refinement only.",
+    days: [
+      { name: "Mon", type: "study", tasks: [
+        { title: "Morning: 30-problem timed sprint", type: "practice", hours: 2, problems: 30, desc: "3.5 min/question. Practice the skip-and-flag method: >2 min on a question = flag and move on." }
+      ]},
+      { name: "Tue", type: "rest", tasks: [] },
+      { name: "Wed", type: "study", tasks: [
+        { title: "30-problem timed sprint #2", type: "practice", hours: 2, problems: 30, desc: "Different topic mix. Review immediately after — warm review is more effective." },
+        { title: "Anki review", type: "anki", hours: 0.5, problems: 0, desc: "All due cards. Add any new patterns from recent practice sessions." }
+      ]},
+      { name: "Thu", type: "rest", tasks: [] },
+      { name: "Fri", type: "study", tasks: [
+        { title: "Cumulative error pattern analysis", type: "review", hours: 1.5, problems: 0, desc: "Review your wrong answer log from exams 1-4. What patterns repeat? Calculation errors? Conceptual gaps? Handbook navigation?" },
+        { title: "Targeted fix for top 3 error patterns", type: "practice", hours: 1.5, problems: 20, desc: "Whatever your most common error types are — drill specifically those." }
+      ]},
+      { name: "Sat", type: "study", tasks: [
+        { title: "Full Anki deck + handbook review", type: "review", hours: 1.5, problems: 0, desc: "Comprehensive Anki review. Go through all deck sections. Retire cards you are getting 100% reliably." },
+        { title: "Problem set: hardest question types", type: "practice", hours: 2, problems: 15, desc: "Your personal hardest question types. Put in the extra work here — these are points on the table." }
+      ]},
+      { name: "Sun", type: "rest", tasks: [] },
+    ]
+  },
+  {
+    id: 29, title: "Final Weak Area Blitz", phase: 4, tag: "simulation",
+    hoursTarget: 11, problemsTarget: 60,
+    summary: "Last deep-work week. Any topic still below 65% accuracy gets one final concentrated push. After this week: no new learning.",
+    days: [
+      { name: "Mon", type: "study", tasks: [
+        { title: "Final blitz — weakest topic", type: "practice", hours: 2.5, problems: 25, desc: "Your single lowest-accuracy topic from all 4 practice exams. Intensive drilling — 25 problems, full review of every single error." }
+      ]},
+      { name: "Tue", type: "rest", tasks: [] },
+      { name: "Wed", type: "study", tasks: [
+        { title: "Final blitz — second weakest topic", type: "practice", hours: 2, problems: 20, desc: "Second lowest-accuracy topic. 20 problems. Same depth of review." },
+        { title: "FULL PRACTICE EXAM #5 — Timed", type: "exam", hours: 0, problems: 0, desc: "If schedule allows, fit a 5th full practice exam this week. If not, run 55-question half-exams on two separate days." }
+      ]},
+      { name: "Thu", type: "rest", tasks: [] },
+      { name: "Fri", type: "study", tasks: [
+        { title: "Mixed high-yield problem set", type: "practice", hours: 2, problems: 20, desc: "Statics, circuits, thermo, fluids — the four highest-weighted technical areas. 5 problems each." }
+      ]},
+      { name: "Sat", type: "study", tasks: [
+        { title: "Exam logistics confirmation", type: "review", hours: 0.5, problems: 0, desc: "Confirm Pearson VUE test center, ID requirements, approved calculator, test center policies. Zero day-of surprises." },
+        { title: "Final Anki review + handbook tabs check", type: "anki", hours: 1, problems: 0, desc: "Full deck review. Verify handbook tabs are complete and intuitive." }
+      ]},
+      { name: "Sun", type: "rest", tasks: [] },
+    ]
+  },
+  {
+    id: 30, title: "Final Practice + Confidence Building", phase: 4, tag: "simulation",
+    hoursTarget: 10, problemsTarget: 55,
+    summary: "Maintain sharpness without burning out. Short, high-quality sessions. Your last week of meaningful new problem-solving.",
+    days: [
+      { name: "Mon", type: "study", tasks: [
+        { title: "Confidence problem set — strong topics", type: "practice", hours: 1.5, problems: 20, desc: "Start with topics you're strongest in. Build momentum and confidence. Grade yourself: should be 85%+." }
+      ]},
+      { name: "Tue", type: "rest", tasks: [] },
+      { name: "Wed", type: "study", tasks: [
+        { title: "Mixed timed sprint — 25 questions", type: "practice", hours: 1.5, problems: 25, desc: "Last major timed practice sprint. Exam pacing and skip-and-flag strategy." },
+        { title: "Anki full review", type: "anki", hours: 0.5, problems: 0, desc: "Complete all due cards. Should be well under 20 minutes if you've been consistent." }
+      ]},
+      { name: "Thu", type: "rest", tasks: [] },
+      { name: "Fri", type: "study", tasks: [
+        { title: "Handbook final review — all tabs", type: "review", hours: 1.5, problems: 0, desc: "Systematically tab through every section. Confirm you know where every major formula type lives." },
+        { title: "Calculator final drill", type: "review", hours: 0.5, problems: 0, desc: "Run through all calculator functions one more time. Solver, stats, conversions." }
+      ]},
+      { name: "Sat", type: "study", tasks: [
+        { title: "Light mixed set — 10 questions", type: "practice", hours: 0.75, problems: 10, desc: "Easy, confidence-building set. This is not the time for new challenge." }
+      ]},
+      { name: "Sun", type: "rest", tasks: [] },
+    ]
+  },
+  {
+    id: 31, title: "Final Rest & Consolidation Week", phase: 4, tag: "simulation",
+    hoursTarget: 5, problemsTarget: 20,
+    summary: "Do NOT study heavily this week. Your brain needs consolidation time, not more input. Light sessions only. Sleep is preparation.",
+    days: [
+      { name: "Mon", type: "light", tasks: [
+        { title: "Light Anki review only", type: "anki", hours: 0.75, problems: 0, desc: "15-20 minutes of Anki. Review due cards only. No grinding." }
+      ]},
+      { name: "Tue", type: "rest", tasks: [] },
+      { name: "Wed", type: "light", tasks: [
+        { title: "Handbook skim — confidence pass", type: "review", hours: 1, problems: 10, desc: "Flip through the handbook leisurely. Reassure yourself you know where everything is. 10 quick mental problems — no timing." }
+      ]},
+      { name: "Thu", type: "rest", tasks: [] },
+      { name: "Fri", type: "light", tasks: [
+        { title: "Light review + exam day prep", type: "review", hours: 1, problems: 10, desc: "Final Anki review. Lay out your materials for exam day: calculator, ID, any allowed items. Early bedtime." }
+      ]},
+      { name: "Sat", type: "rest", tasks: [] },
+      { name: "Sun", type: "rest", tasks: [] },
+    ]
+  },
+  {
+    id: 32, title: "EXAM WEEK", phase: 4, tag: "simulation",
+    hoursTarget: 6, problemsTarget: 0,
+    isExamWeek: true,
+    milestoneText: "THIS IS IT. You have put in 30 weeks of serious preparation. Trust the work. Arrive early, manage your time (3.5 min/question average), use your skip-and-flag strategy, and stay methodical. You are ready.",
+    summary: "Exam week. The preparation is done. Execute the strategy.",
+    days: [
+      { name: "Mon", type: "light", tasks: [
+        { title: "Zero studying. Full rest.", type: "rest", hours: 0, problems: 0, desc: "Do not pick up the handbook. Do not do problems. Do something you enjoy. Sleep 8+ hours." }
+      ]},
+      { name: "Tue", type: "rest", tasks: [] },
+      { name: "Wed", type: "light", tasks: [
+        { title: "Gather exam materials", type: "review", hours: 0.5, problems: 0, desc: "Calculator (charged), government-issued ID, test center address confirmed, transportation planned. That is all." }
+      ]},
+      { name: "Thu", type: "rest", tasks: [] },
+      { name: "Fri", type: "exam", tasks: [
+        { title: "Exam day: FE Other Disciplines", type: "exam", hours: 6, problems: 0, desc: "Arrive 30 min early. Deep breaths. When you encounter a tough question: flag it, move on, return later. You have prepared for this. Trust the work." }
+      ]},
+      { name: "Sat", type: "rest", tasks: [] },
+      { name: "Sun", type: "rest", tasks: [] },
+    ]
+  }
+];
+
+const SCORE_EXAMS = [
+  { label: "Exam #1", week: 18, target: "55-65%" },
+  { label: "Exam #2", week: 22, target: "65-70%" },
+  { label: "Exam #3", week: 26, target: "70-75%" },
+  { label: "Exam #4", week: 27, target: "72-78%" },
+  { label: "Exam #5", week: 29, target: "75%+" },
+];
+
+// =====================================================
+// STATE — persisted to localStorage
+// =====================================================
+let state = {
+  completedTasks: {},
+  notes: {},
+  practiceExamScores: {},
+  totalProblems: 0,
+};
+
+function loadState() {
+  try {
+    const saved = localStorage.getItem('fe-tracker-state');
+    if (saved) state = { ...state, ...JSON.parse(saved) };
+  } catch(e) {}
+}
+
+function saveState() {
+  try {
+    localStorage.setItem('fe-tracker-state', JSON.stringify(state));
+  } catch(e) {}
+  updateGlobalStats();
+}
+
+// =====================================================
+// RENDER
+// =====================================================
+
+function getTaskId(weekId, dayIdx, taskIdx) {
+  return `w${weekId}-d${dayIdx}-t${taskIdx}`;
+}
+
+function isTaskComplete(weekId, dayIdx, taskIdx) {
+  return !!state.completedTasks[getTaskId(weekId, dayIdx, taskIdx)];
+}
+
+function renderWeekProgress(week) {
+  let total = 0, done = 0;
+  week.days.forEach((day, di) => {
+    day.tasks.forEach((_, ti) => {
+      total++;
+      if (isTaskComplete(week.id, di, ti)) done++;
+    });
+  });
+  return total > 0 ? Math.round((done / total) * 100) : 0;
+}
+
+function renderDayTask(week, dayIdx, taskIdx, task) {
+  const id = getTaskId(week.id, dayIdx, taskIdx);
+  const done = !!state.completedTasks[id];
+  return `
+    <div class="day-task ${done ? 'completed' : ''}" onclick="toggleTask('${id}', this)" title="${task.desc}">
+      <div class="task-title">${task.title}</div>
+      <div class="task-meta">
+        <span class="task-type type-${task.type}">${task.type}</span>
+        ${task.hours > 0 ? `<span>${task.hours}h</span>` : ''}
+        ${task.problems > 0 ? `<span>${task.problems}q</span>` : ''}
+      </div>
+      <div class="task-check">${done ? '✓' : ''}</div>
+    </div>`;
+}
+
+function renderDay(week, dayIdx, day) {
+  const typeClass = day.type === 'rest' ? 'rest-day' : day.type === 'light' ? 'light-day' : 'study-day';
+  return `
+    <div class="day-col ${typeClass}">
+      <div class="day-header">
+        <div class="day-name">${day.name}</div>
+      </div>
+      <div class="day-body">
+        ${day.type === 'rest'
+          ? `<div class="rest-day-placeholder">Rest day</div>`
+          : day.tasks.map((t, ti) => renderDayTask(week, dayIdx, ti, t)).join('')
+        }
+      </div>
+    </div>`;
+}
+
+function renderWeekSummary(week) {
+  const totalHours = week.days.reduce((s, d) => s + d.tasks.reduce((ss, t) => ss + t.hours, 0), 0);
+  const totalProblems = week.days.reduce((s, d) => s + d.tasks.reduce((ss, t) => ss + t.problems, 0), 0);
+  const pct = renderWeekProgress(week);
+  return `
+    <div class="week-summary">
+      <div class="summary-cell">
+        <div class="summary-label">Hours target</div>
+        <div class="summary-value">${week.hoursTarget}</div>
+        <div class="summary-sub">~${Math.round(week.hoursTarget/5.5*10)/10} hrs/study day</div>
+      </div>
+      <div class="summary-cell">
+        <div class="summary-label">Problems target</div>
+        <div class="summary-value amber">${week.problemsTarget}</div>
+        <div class="summary-sub">${week.days.filter(d=>d.type!=='rest').length} active days</div>
+      </div>
+      <div class="summary-cell">
+        <div class="summary-label">Scheduled hours</div>
+        <div class="summary-value">${totalHours.toFixed(1)}</div>
+        <div class="summary-sub">Across ${week.days.reduce((s,d)=>s+d.tasks.length,0)} tasks</div>
+      </div>
+      <div class="summary-cell">
+        <div class="summary-label">Scheduled problems</div>
+        <div class="summary-value">${totalProblems}</div>
+      </div>
+      <div class="summary-cell">
+        <div class="summary-label">Week completion</div>
+        <div class="summary-value ${pct === 100 ? 'green' : pct > 50 ? '' : 'red'}">${pct}%</div>
+        <div class="week-progress-bar"><div class="week-progress-fill" style="width:${pct}%"></div></div>
+      </div>
+    </div>`;
+}
+
+function renderWeekCard(week) {
+  const pct = renderWeekProgress(week);
+  const phaseColors = { 1: '#5eb8ff', 2: '#7dff8a', 3: '#ffcc4d', 4: '#ff5e5e' };
+  const color = phaseColors[week.phase];
+  const isOpen = week.id <= 2; // first 2 open by default
+
+  let extraClass = '';
+  if (week.isMilestone) extraClass = 'milestone-card';
+  else if (week.isExamWeek) extraClass = 'exam-week-card';
+
+  const tagLabels = { foundation: 'Foundation', core: 'Core Tech', mastery: 'Mastery', simulation: 'Simulation' };
+
+  return `
+    <div class="week-card ${extraClass} ${isOpen ? 'open' : ''}" id="week-${week.id}">
+      <div class="week-header" onclick="toggleWeek(${week.id})">
+        <div class="week-num-badge" style="border-right-color:${color}20">
+          <span class="wk-label">Week</span>
+          <span style="font-size:18px;color:${color}">${week.id}</span>
+        </div>
+        <div class="week-header-info">
+          <div class="week-title">${week.title}</div>
+          <div class="week-meta">
+            <span class="week-tag tag-${week.tag}">${tagLabels[week.tag]}</span>
+            ${week.isMilestone ? `<span class="week-tag tag-milestone">⚑ Milestone</span>` : ''}
+            ${week.isExamWeek ? `<span class="week-tag tag-exam">★ Exam Week</span>` : ''}
+            <span style="font-size:11px;color:var(--text3);font-family:var(--font-mono)">${week.hoursTarget}h target / ${week.problemsTarget}q target</span>
+          </div>
+        </div>
+        <div class="week-progress-mini">
+          <div style="width:60px;height:4px;background:var(--border2);border-radius:2px;overflow:hidden">
+            <div style="width:${pct}%;height:100%;background:${color};border-radius:2px;transition:width 0.4s"></div>
+          </div>
+          <div class="week-pct" style="color:${pct===100?'var(--accent)':'var(--text3)'}">${pct}%</div>
+        </div>
+        <div class="expand-icon">▼</div>
+      </div>
+      <div class="week-body">
+        ${(week.isMilestone || week.isExamWeek) ? `
+          <div class="milestone-callout ${week.isExamWeek ? 'exam-callout' : ''}">
+            <span class="callout-icon">${week.isExamWeek ? '★' : '⚑'}</span>
+            <div class="callout-text">${week.milestoneText}</div>
+          </div>` : ''}
+        ${renderWeekSummary(week)}
+        <div class="days-grid">
+          ${week.days.map((d, di) => renderDay(week, di, d)).join('')}
+        </div>
+        <div class="week-notes">
+          <div class="notes-label">Week notes & reflections</div>
+          <textarea class="notes-textarea" rows="2" placeholder="Add notes about this week's progress, insights, or adjustments..."
+            onchange="saveNote(${week.id}, this.value)">${state.notes[week.id] || ''}</textarea>
+        </div>
+      </div>
+    </div>`;
+}
+
+function renderPhaseSection(phase) {
+  const phaseWeeks = WEEKS.filter(w => w.phase === phase.id);
+  const dots = ['#5eb8ff','#7dff8a','#ffcc4d','#ff5e5e'];
+
+  return `
+    <div class="phase-section" id="phase-${phase.id}">
+      <div class="phase-heading" onclick="togglePhaseSection(${phase.id})">
+        <div class="phase-heading-dot" style="background:${dots[phase.id-1]}"></div>
+        <div>
+          <div class="phase-heading-title">Phase ${phase.id} — ${phase.label}</div>
+          <div class="phase-heading-desc">${phase.desc}</div>
+        </div>
+        <div class="phase-heading-weeks">Weeks ${phase.weeks[0]}–${phase.weeks[1]}</div>
+      </div>
+      <div class="phase-weeks" id="phase-weeks-${phase.id}">
+        ${phaseWeeks.map(renderWeekCard).join('')}
+      </div>
+    </div>`;
+}
+
+function renderAll() {
+  const main = document.getElementById('main-content');
+  main.innerHTML = PHASES.map(renderPhaseSection).join('');
+  renderWeekNav();
+  renderScoreTracker();
+  updateGlobalStats();
+}
+
+function renderWeekNav() {
+  const nav = document.getElementById('week-nav');
+  const phaseColors = { 1: '#5eb8ff', 2: '#7dff8a', 3: '#ffcc4d', 4: '#ff5e5e' };
+  nav.innerHTML = WEEKS.map(w => {
+    const pct = renderWeekProgress(w);
+    const done = pct === 100;
+    const isMilestone = w.isMilestone || w.isExamWeek;
+    const firstTopic = w.days.find(d => d.tasks.length > 0);
+    const preview = firstTopic ? firstTopic.tasks[0].title.substring(0, 22) + '...' : '';
+    return `
+      <button class="week-nav-btn ${done ? 'completed' : ''} ${isMilestone ? 'milestone' : ''}"
+        onclick="scrollToWeek(${w.id})" style="border-left:2px solid ${phaseColors[w.phase]}22">
+        <span style="color:${phaseColors[w.phase]};font-weight:500;min-width:20px">W${w.id}</span>
+        <span class="week-topic-preview">${w.title.substring(0,20)}</span>
+        ${done ? '' : `<span style="margin-left:auto;font-size:9px;color:var(--text3)">${pct}%</span>`}
+      </button>`;
+  }).join('');
+}
+
+function renderScoreTracker() {
+  const container = document.getElementById('score-tracker');
+  container.innerHTML = SCORE_EXAMS.map((ex, i) => {
+    const score = state.practiceExamScores[i] || '';
+    const numScore = parseInt(score);
+    const width = score ? Math.min(numScore, 100) : 0;
+    const statusClass = !score ? 'status-pending' : numScore >= 70 ? 'status-pass' : numScore >= 60 ? 'status-close' : 'status-below';
+    const statusLabel = !score ? 'pending' : numScore >= 70 ? 'on track' : numScore >= 60 ? 'close' : 'below';
+    return `
+      <div class="score-row">
+        <span class="score-label" style="font-family:var(--font-mono);font-size:11px">${ex.label}</span>
+        <input class="score-input" type="number" min="0" max="100" placeholder="—"
+          value="${score}" onchange="saveScore(${i}, this.value)" title="Enter % score (0-100)">
+        <div class="score-bar-wrap">
+          <div class="score-bar-fill" style="width:${width}%;background:${numScore>=70?'var(--accent)':numScore>=60?'var(--amber)':'var(--red)'}"></div>
+        </div>
+        <span class="score-status ${statusClass}">${statusLabel}</span>
+      </div>
+      <div style="font-family:var(--font-mono);font-size:9px;color:var(--text3);text-align:right;margin-top:-6px;margin-bottom:4px">Target: ${ex.target}</div>`;
+  }).join('');
+}
+
+// =====================================================
+// INTERACTIONS
+// =====================================================
+
+function toggleTask(id, el) {
+  state.completedTasks[id] = !state.completedTasks[id];
+  if (state.completedTasks[id]) {
+    el.classList.add('completed');
+    el.querySelector('.task-check').textContent = '✓';
+    el.querySelector('.task-check').style.background = 'var(--accent)';
+    el.querySelector('.task-check').style.borderColor = 'var(--accent)';
+    el.querySelector('.task-check').style.color = '#0d0f0e';
+    showToast('Task complete ✓');
+  } else {
+    el.classList.remove('completed');
+    el.querySelector('.task-check').textContent = '';
+    el.querySelector('.task-check').style.background = 'var(--bg3)';
+    el.querySelector('.task-check').style.borderColor = 'var(--border2)';
+    el.querySelector('.task-check').style.color = 'transparent';
+  }
+  // Update week progress bars without full re-render
+  const weekMatch = id.match(/w(\d+)-/);
+  if (weekMatch) {
+    const weekId = parseInt(weekMatch[1]);
+    const week = WEEKS.find(w => w.id === weekId);
+    if (week) {
+      const pct = renderWeekProgress(week);
+      const card = document.getElementById(`week-${weekId}`);
+      if (card) {
+        const fill = card.querySelector('.week-progress-mini > div > div');
+        const pctEl = card.querySelector('.week-pct');
+        const sumFill = card.querySelector('.week-progress-fill');
+        if (fill) fill.style.width = pct + '%';
+        if (pctEl) pctEl.textContent = pct + '%';
+        if (sumFill) sumFill.style.width = pct + '%';
+      }
+    }
+  }
+  saveState();
+  renderWeekNav();
+}
+
+function toggleWeek(id) {
+  const card = document.getElementById(`week-${id}`);
+  card.classList.toggle('open');
+}
+
+function togglePhaseSection(id) {
+  const weeks = document.getElementById(`phase-weeks-${id}`);
+  weeks.style.display = weeks.style.display === 'none' ? 'flex' : 'none';
+}
+
+function scrollToWeek(id) {
+  const el = document.getElementById(`week-${id}`);
+  if (el) {
+    if (!el.classList.contains('open')) el.classList.add('open');
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+function jumpToPhase(id) {
+  const el = document.getElementById(`phase-${id}`);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  document.querySelectorAll('.phase-btn').forEach((b, i) => b.classList.toggle('active', i === id - 1));
+}
+
+function saveNote(weekId, val) {
+  state.notes[weekId] = val;
+  saveState();
+}
+
+function saveScore(idx, val) {
+  state.practiceExamScores[idx] = val;
+  saveState();
+  renderScoreTracker();
+}
+
+function updateGlobalStats() {
+  let totalTasks = 0, doneTasks = 0;
+  let totalHours = 0, doneHours = 0;
+  let totalProblems = 0, doneProblems = 0;
+
+  WEEKS.forEach(week => {
+    week.days.forEach((day, di) => {
+      day.tasks.forEach((task, ti) => {
+        totalTasks++;
+        totalHours += task.hours;
+        totalProblems += task.problems;
+        if (isTaskComplete(week.id, di, ti)) {
+          doneTasks++;
+          doneHours += task.hours;
+          doneProblems += task.problems;
+        }
+      });
+    });
+  });
+
+  const pct = totalTasks > 0 ? Math.round((doneTasks / totalTasks) * 100) : 0;
+  const doneExams = Object.values(state.practiceExamScores).filter(s => s > 0).length;
+
+  document.getElementById('h-completed').textContent = doneTasks;
+  document.getElementById('h-hours').textContent = doneHours.toFixed(1);
+  document.getElementById('h-problems').textContent = doneProblems;
+  document.getElementById('h-progress').style.width = pct + '%';
+  document.getElementById('h-pct').textContent = pct + '%';
+
+  document.getElementById('s-tasks').textContent = `${doneTasks} / ${totalTasks}`;
+  document.getElementById('s-hours').textContent = `${doneHours.toFixed(0)} / ${totalHours.toFixed(0)}`;
+  document.getElementById('s-probs').textContent = `${doneProblems} / 1400`;
+  document.getElementById('s-exams').textContent = `${doneExams} / 5`;
+
+  const pctBar = (a, b) => `${Math.min(100, Math.round((a/Math.max(b,1))*100))}%`;
+  document.getElementById('s-tasks-bar').style.width = pctBar(doneTasks, totalTasks);
+  document.getElementById('s-hours-bar').style.width = pctBar(doneHours, totalHours);
+  document.getElementById('s-probs-bar').style.width = pctBar(doneProblems, 1400);
+  document.getElementById('s-exams-bar').style.width = pctBar(doneExams, 5);
+}
+
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+// =====================================================
+// INIT
+// =====================================================
+loadState();
+renderAll();
+</script>
+</body>
+</html>
